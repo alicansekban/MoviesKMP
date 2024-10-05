@@ -5,7 +5,9 @@ import di.initKoin
 import ui.App
 
 fun MainViewController() = ComposeUIViewController(
-    configure =  {
+    configure = {
         initKoin()
     }
-) { App() }
+) {
+    App()
+}
