@@ -1,10 +1,11 @@
 package di
 
 import org.koin.dsl.module
+import ui.home.HomeViewModel
 
-val provideviewModelModule = module {
+val provideViewModelModule = module {
     single {
-        //HomeViewModel(get())
+        HomeViewModel(get())
     }
 
 }
