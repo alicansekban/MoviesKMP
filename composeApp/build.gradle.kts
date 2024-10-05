@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -35,8 +34,10 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
 
+            // ktor android
             implementation(libs.ktor.client.android)
             implementation(libs.ktor.client.okhttp)
+            // koin android
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
         }
@@ -47,20 +48,36 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+
+            // lifecycle
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
 
+            // coroutines
+
+            implementation(libs.kotlinx.coroutines.core)
+
+            // koin
             api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.lifecycle.viewmodel)
+
+            //navigation
             implementation(libs.navigation.compose)
 
-
-            //implementation(libs.coil.network.ktor)
+            //ktor
             implementation(libs.bundles.ktor)
+
+            //coil
+
+            implementation(libs.coil.compose.core)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.mp)
+            implementation(libs.coil.network.ktor)
         }
         iosMain.dependencies {
+            // ktor ios
             implementation(libs.ktor.client.darwin)
         }
     }
