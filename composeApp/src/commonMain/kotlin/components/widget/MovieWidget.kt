@@ -83,7 +83,10 @@ fun WidgetItem(
             modifier = Modifier
                 .clip(shape = RoundedCornerShape(10.dp))
                 .height(250.dp)
-                .width(150.dp)
+                .width(150.dp),
+            onClick = {
+                item.id?.let { openMovieDetailScreen(it) }
+            }
         )
 
         item.title?.let {

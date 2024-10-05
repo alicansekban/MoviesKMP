@@ -24,6 +24,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = koinViewModel(),
     openListScreen: (type: String) -> Unit,
+    openMovieDetailScreen: (id: Int) -> Unit
 ) {
     val upComingMovies by viewModel.upComingMovies.collectAsStateWithLifecycle()
     val nowPlayingMovies by viewModel.nowPlayingMovies.collectAsStateWithLifecycle()
@@ -48,7 +49,7 @@ fun HomeScreen(
 
                 CustomWidget(model = widgetModel, openListScreen = {
                     openListScreen.invoke(MovieType.UPCOMING.type)
-                }, openMovieDetailScreen = {})
+                }, openMovieDetailScreen = openMovieDetailScreen)
             }
         }
         when (nowPlayingMovies) {
@@ -65,7 +66,7 @@ fun HomeScreen(
 
                 CustomWidget(model = widgetModel, openListScreen = {
                     openListScreen.invoke(MovieType.NOW_PLAYING.type)
-                }, openMovieDetailScreen = {})
+                }, openMovieDetailScreen = openMovieDetailScreen)
             }
         }
         when (popularMovies) {
@@ -82,7 +83,7 @@ fun HomeScreen(
 
                 CustomWidget(model = widgetModel, openListScreen = {
                     openListScreen.invoke(MovieType.POPULAR.type)
-                }, openMovieDetailScreen = {})
+                }, openMovieDetailScreen = openMovieDetailScreen)
             }
         }
         when (topRatedMovies) {
@@ -99,7 +100,7 @@ fun HomeScreen(
 
                 CustomWidget(model = widgetModel, openListScreen = {
                     openListScreen.invoke(MovieType.TOP_RATED.type)
-                }, openMovieDetailScreen = {})
+                }, openMovieDetailScreen = openMovieDetailScreen)
             }
         }
     }

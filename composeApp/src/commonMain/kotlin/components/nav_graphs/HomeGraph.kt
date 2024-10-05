@@ -29,6 +29,10 @@ fun NavGraphBuilder.homeGraph(navController: NavController) {
                 openListScreen = {
                     val route = MovieListRoute(it)
                     navController.navigate(route)
+                },
+                openMovieDetailScreen = {
+                    val route = MovieDetailRoute(it)
+                    navController.navigate(route)
                 }
             )
         }
@@ -38,7 +42,11 @@ fun NavGraphBuilder.homeGraph(navController: NavController) {
             val viewModel = koinViewModel<MovieListViewModel>()
             viewModel.getMoviesByType(args.type, page = 1, MovieListUIModel())
             MovieListScreen(
-                viewModel = viewModel
+                viewModel = viewModel,
+                openMovieDetailScreen = {
+                    val route = MovieDetailRoute(it)
+                    navController.navigate(route)
+                }
             )
         }
 

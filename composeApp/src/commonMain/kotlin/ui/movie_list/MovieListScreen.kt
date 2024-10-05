@@ -23,7 +23,8 @@ import components.imageView.CustomImageView
 @Composable
 fun MovieListScreen(
     modifier: Modifier = Modifier,
-    viewModel: MovieListViewModel
+    viewModel: MovieListViewModel,
+    openMovieDetailScreen: (id: Int) -> Unit
 ) {
 
     val uiState by viewModel.movies.collectAsStateWithLifecycle()
@@ -56,7 +57,10 @@ fun MovieListScreen(
                         imageUrl = it1,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(200.dp)
+                            .height(200.dp),
+                        onClick = {
+                            openMovieDetailScreen.invoke(it.id ?: 0)
+                        }
                     )
                 }
             }
