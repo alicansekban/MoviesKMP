@@ -9,10 +9,13 @@ import domain.models.MovieListUIModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import ui.home.HomeScreen
+import ui.movie_detail.MovieDetailScreen
+import ui.movie_detail.MovieDetailViewModel
 import ui.movie_list.MovieListScreen
 import ui.movie_list.MovieListViewModel
 import utils.HomeHost
 import utils.HomeRoute
+import utils.MovieDetailRoute
 import utils.MovieListRoute
 
 @OptIn(KoinExperimentalAPI::class)
@@ -37,6 +40,16 @@ fun NavGraphBuilder.homeGraph(navController: NavController) {
             MovieListScreen(
                 viewModel = viewModel
             )
+        }
+
+        composable<MovieDetailRoute> {
+            val args = it.toRoute<MovieDetailRoute>()
+            val viewModel = koinViewModel<MovieDetailViewModel>()
+            viewModel.callApiCalls(args.movieId)
+            MovieDetailScreen(
+                viewModel = viewModel
+            )
+
         }
     }
 }
