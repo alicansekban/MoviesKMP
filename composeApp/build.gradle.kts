@@ -41,8 +41,8 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
 
-            implementation(libs.navigation.compose)
-            implementation(libs.androidx.material3.android)
+            //implementation(libs.navigation.compose)
+            //  implementation(libs.androidx.material3.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
