@@ -15,25 +15,25 @@ class MovieListInteractor(
 ) {
 
     fun getMoviesByType(
-        movieType: MovieType,
+        movieType: String,
         page: Int,
         currentModel: MovieListUIModel
     ): Flow<BaseUIModel<MovieListUIModel>> {
         return flow {
             when (movieType) {
-                MovieType.UPCOMING -> {
+                MovieType.UPCOMING.type -> {
                     emitAll(getUpComingMovies(page, currentModel))
                 }
 
-                MovieType.NOW_PLAYING -> {
+                MovieType.NOW_PLAYING.type -> {
                     emitAll(getNowPlayingMovies(page, currentModel))
                 }
 
-                MovieType.TOP_RATED -> {
+                MovieType.TOP_RATED.type -> {
                     emitAll(getTopRatedMovies(page, currentModel))
                 }
 
-                MovieType.POPULAR -> {
+                MovieType.POPULAR.type -> {
                     emitAll(getPopularMovies(page, currentModel))
                 }
             }
@@ -52,7 +52,10 @@ class MovieListInteractor(
                     ResultWrapper.Loading -> emit(BaseUIModel.Loading)
                     ResultWrapper.NetworkError -> emit(BaseUIModel.Error("Network Error"))
                     is ResultWrapper.Success -> {
-                        val uiModel = state.value.toUIModel(currentModel)
+                        val uiModel = state.value.toUIModel(
+                            currentModel,
+                            movieType = MovieType.UPCOMING
+                        )
                         emit(BaseUIModel.Success(uiModel))
                     }
                 }
@@ -73,7 +76,10 @@ class MovieListInteractor(
                     ResultWrapper.Loading -> emit(BaseUIModel.Loading)
                     ResultWrapper.NetworkError -> emit(BaseUIModel.Error("Network Error"))
                     is ResultWrapper.Success -> {
-                        val uiModel = state.value.toUIModel(currentModel)
+                        val uiModel = state.value.toUIModel(
+                            currentModel,
+                            movieType = MovieType.NOW_PLAYING
+                        )
                         emit(BaseUIModel.Success(uiModel))
                     }
                 }
@@ -94,7 +100,11 @@ class MovieListInteractor(
                     ResultWrapper.Loading -> emit(BaseUIModel.Loading)
                     ResultWrapper.NetworkError -> emit(BaseUIModel.Error("Network Error"))
                     is ResultWrapper.Success -> {
-                        val uiModel = state.value.toUIModel(currentModel)
+                        val uiModel = state.value.toUIModel(
+                            currentModel,
+
+                            movieType = MovieType.TOP_RATED
+                        )
                         emit(BaseUIModel.Success(uiModel))
                     }
                 }
@@ -115,7 +125,10 @@ class MovieListInteractor(
                     ResultWrapper.Loading -> emit(BaseUIModel.Loading)
                     ResultWrapper.NetworkError -> emit(BaseUIModel.Error("Network Error"))
                     is ResultWrapper.Success -> {
-                        val uiModel = state.value.toUIModel(currentModel)
+                        val uiModel = state.value.toUIModel(
+                            currentModel,
+                            movieType = MovieType.POPULAR
+                        )
                         emit(BaseUIModel.Success(uiModel))
                     }
                 }

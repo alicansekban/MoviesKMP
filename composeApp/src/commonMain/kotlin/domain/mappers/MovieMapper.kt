@@ -3,6 +3,7 @@ package domain.mappers
 import data.response.BaseMoviesResponse
 import data.response.MovieResponse
 import domain.models.MovieListUIModel
+import domain.models.MovieType
 import domain.models.MovieUIModel
 import utils.Constants
 
@@ -14,7 +15,10 @@ fun MovieResponse.toUIModel(): MovieUIModel {
     )
 }
 
-fun BaseMoviesResponse.toUIModel(currentModel: MovieListUIModel): MovieListUIModel {
+fun BaseMoviesResponse.toUIModel(
+    currentModel: MovieListUIModel,
+    movieType: MovieType
+): MovieListUIModel {
     val newMovies = this.results?.map { it.toUIModel() } ?: emptyList()
     val updatedMovies = currentModel.movies.plus(newMovies).distinctBy { it.id }
     return MovieListUIModel(
@@ -22,7 +26,7 @@ fun BaseMoviesResponse.toUIModel(currentModel: MovieListUIModel): MovieListUIMod
         movies = updatedMovies,
         totalPages = total_pages ?: 0,
         totalResults = total_results ?: 0,
-        canLoadMore = page != total_pages
-
+        canLoadMore = page != total_pages,
+        movieType = movieType
     )
 }

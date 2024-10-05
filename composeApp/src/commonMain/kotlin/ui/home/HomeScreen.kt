@@ -14,6 +14,7 @@ import components.widget.CustomWidget
 import components.widget.MovieWidgetComponentModel
 import components.widget.toWidgetModel
 import domain.models.BaseUIModel
+import domain.models.MovieType
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -21,7 +22,8 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = koinViewModel()
+    viewModel: HomeViewModel = koinViewModel(),
+    openListScreen: (type: String) -> Unit,
 ) {
     val upComingMovies by viewModel.upComingMovies.collectAsStateWithLifecycle()
     val nowPlayingMovies by viewModel.nowPlayingMovies.collectAsStateWithLifecycle()
@@ -45,6 +47,7 @@ fun HomeScreen(
                 )
 
                 CustomWidget(model = widgetModel, openListScreen = {
+                    openListScreen.invoke(MovieType.UPCOMING.type)
                 }, openMovieDetailScreen = {})
             }
         }
@@ -61,6 +64,7 @@ fun HomeScreen(
                 )
 
                 CustomWidget(model = widgetModel, openListScreen = {
+                    openListScreen.invoke(MovieType.NOW_PLAYING.type)
                 }, openMovieDetailScreen = {})
             }
         }
@@ -77,6 +81,7 @@ fun HomeScreen(
                 )
 
                 CustomWidget(model = widgetModel, openListScreen = {
+                    openListScreen.invoke(MovieType.POPULAR.type)
                 }, openMovieDetailScreen = {})
             }
         }
@@ -93,6 +98,7 @@ fun HomeScreen(
                 )
 
                 CustomWidget(model = widgetModel, openListScreen = {
+                    openListScreen.invoke(MovieType.TOP_RATED.type)
                 }, openMovieDetailScreen = {})
             }
         }

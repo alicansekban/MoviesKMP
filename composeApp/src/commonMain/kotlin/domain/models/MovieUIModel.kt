@@ -5,7 +5,8 @@ data class MovieListUIModel(
     val page: Int = 1,
     val totalPages: Int = 1,
     val totalResults: Int = 0,
-    val canLoadMore: Boolean = false
+    val canLoadMore: Boolean = false,
+    val movieType: MovieType = MovieType.UPCOMING
 )
 
 data class MovieUIModel(
@@ -15,10 +16,10 @@ data class MovieUIModel(
     val overview: String? = null,
 )
 
-enum class MovieType {
-    UPCOMING,
-    NOW_PLAYING,
-    TOP_RATED,
-    POPULAR
+enum class MovieType(val type: String) {
+    UPCOMING("upcoming"),
+    NOW_PLAYING("now_playing"),
+    TOP_RATED("top_rated"),
+    POPULAR("popular")
 }
 
