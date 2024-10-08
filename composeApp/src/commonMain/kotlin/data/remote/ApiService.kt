@@ -19,6 +19,16 @@ class ApiService(
     private val client: HttpClient
 ) {
 
+    suspend fun getDiscoverMovies(page: Int): ResultWrapper<BaseMoviesResponse> =
+        safeApiCall(Dispatchers.IO) {
+            client.get(urlString = Constants.BASE_URL) {
+                url {
+                    appendPathSegments("discover", "movie")
+                    parameters.append("page", page.toString())
+                }
+            }.body()
+        }
+
     suspend fun getUpComingMovies(page: Int): ResultWrapper<BaseMoviesResponse> =
         safeApiCall(Dispatchers.IO) {
             client.get(urlString = Constants.BASE_URL) {

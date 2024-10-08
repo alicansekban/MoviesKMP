@@ -1,8 +1,15 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package ui.home
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -10,11 +17,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import components.imageView.CustomImageView
 import components.widget.CustomWidget
 import components.widget.MovieWidgetComponentModel
 import components.widget.toWidgetModel
 import domain.models.BaseUIModel
 import domain.models.MovieType
+import domain.models.MovieUIModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -26,15 +35,30 @@ fun HomeScreen(
     openListScreen: (type: String) -> Unit,
     openMovieDetailScreen: (id: Int) -> Unit
 ) {
+
     val upComingMovies by viewModel.upComingMovies.collectAsStateWithLifecycle()
     val nowPlayingMovies by viewModel.nowPlayingMovies.collectAsStateWithLifecycle()
     val popularMovies by viewModel.popularMovies.collectAsStateWithLifecycle()
     val topRatedMovies by viewModel.topRatedMovies.collectAsStateWithLifecycle()
+    val discoverMovies by viewModel.discoverMovies.collectAsStateWithLifecycle()
 
     Column(
         modifier = modifier.fillMaxSize().verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
+
+        when (discoverMovies) {
+            BaseUIModel.Empty -> {}
+            is BaseUIModel.Error -> {}
+            BaseUIModel.Loading -> {}
+            is BaseUIModel.Success -> {
+                val movies = (discoverMovies as BaseUIModel.Success).data
+                HomeMoviePager(
+                    movies = movies,
+                    openMovieDetailScreen = openMovieDetailScreen
+                )
+            }
+        }
         when (upComingMovies) {
             BaseUIModel.Empty -> {}
             is BaseUIModel.Error -> {}
@@ -104,4 +128,29 @@ fun HomeScreen(
             }
         }
     }
+}
+
+@Composable
+fun HomeMoviePager(
+    modifier: Modifier = Modifier,
+    movies: List<MovieUIModel>,
+    openMovieDetailScreen: (id: Int) -> Unit
+) {
+
+    val pagerState = rememberPagerState(pageCount = { movies.size })
+
+    HorizontalPager(pagerState) { index ->
+        val currentMovie = movies[index]
+        currentMovie.imageUrl?.let {
+            CustomImageView(
+                imageUrl = it,
+                modifier = Modifier.fillMaxWidth().fillMaxHeight(0.40f),
+                onClick = {
+                    currentMovie.id?.let { it1 -> openMovieDetailScreen.invoke(it1) }
+                }
+            )
+        }
+
+    }
+
 }

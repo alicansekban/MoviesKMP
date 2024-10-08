@@ -87,4 +87,23 @@ class HomeInteractor(
             }
         }
     }
+
+    fun getDiscoverMovies(page: Int): Flow<BaseUIModel<List<MovieUIModel>>> {
+        return flow {
+            emit(BaseUIModel.Loading)
+            moviesRepository.getDiscoverMovies(page).collect { state ->
+                when (state) {
+                    is ResultWrapper.GenericError -> emit(BaseUIModel.Error(state.error ?: "Error"))
+                    ResultWrapper.Loading -> emit(BaseUIModel.Loading)
+                    ResultWrapper.NetworkError -> emit(BaseUIModel.Error("Network Error"))
+                    is ResultWrapper.Success -> {
+                        val uiModel = state.value.results?.map {
+                            it.toUIModel()
+                        } ?: emptyList()
+                        emit(BaseUIModel.Success(uiModel))
+                    }
+                }
+            }
+        }
+    }
 }

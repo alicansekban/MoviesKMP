@@ -35,6 +35,20 @@ class HomeViewModel(
         getTopRatedMovies()
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(10000L), BaseUIModel.Empty)
 
+    private val _discoverMovies =
+        MutableStateFlow<BaseUIModel<List<MovieUIModel>>>(BaseUIModel.Empty)
+    val discoverMovies = _discoverMovies.onStart {
+        getDiscoverMovies()
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(10000L), BaseUIModel.Empty)
+
+    private fun getDiscoverMovies() {
+        viewModelScope.launch {
+            interactor.getDiscoverMovies(1).collect {
+                _discoverMovies.value = it
+            }
+        }
+    }
+
     private fun getUpComingMovies() {
         viewModelScope.launch {
             interactor.getUpComingMovies(1).collect {
