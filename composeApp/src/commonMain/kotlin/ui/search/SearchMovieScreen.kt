@@ -70,7 +70,7 @@ fun SearchMovieScreen(
             },
             label = {
                 Text(
-                    text = "Search"
+                    text = "Search..."
                 )
             },
             maxLines = 1,

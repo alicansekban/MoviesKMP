@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import domain.interactors.SearchMovieInteractor
 import domain.models.BaseUIModel
+import domain.models.MovieListUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -33,6 +34,15 @@ class SearchMovieViewModel(
                 _uiState.value = uiState.value.copy(
                     query = event.query
                 )
+                if (_uiState.value.query.length > 3 && _uiState.value.isLoading.not() && _uiState.value.isPaginating.not()) {
+                    searchMovie(uiState.value.query, 1)
+                    return
+                }
+                if (_uiState.value.query.isEmpty()) {
+                    _uiState.value = _uiState.value.copy(
+                        uiModel = MovieListUIModel()
+                    )
+                }
             }
         }
     }
