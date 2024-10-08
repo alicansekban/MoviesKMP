@@ -46,6 +46,9 @@ fun NavGraphBuilder.homeGraph(navController: NavController) {
                 openMovieDetailScreen = {
                     val route = MovieDetailRoute(it)
                     navController.navigate(route)
+                },
+                onBackClick = {
+                    navController.popBackStack()
                 }
             )
         }
@@ -55,7 +58,9 @@ fun NavGraphBuilder.homeGraph(navController: NavController) {
             val viewModel = koinViewModel<MovieDetailViewModel>()
             viewModel.callApiCalls(args.movieId)
             MovieDetailScreen(
-                viewModel = viewModel
+                viewModel = viewModel, onBackClick = {
+                    navController.popBackStack()
+                }
             )
 
         }

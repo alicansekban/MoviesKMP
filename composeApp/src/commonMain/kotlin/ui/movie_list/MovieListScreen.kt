@@ -19,12 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import components.imageView.CustomImageView
+import components.top_bar.CustomTopBar
 
 @Composable
 fun MovieListScreen(
     modifier: Modifier = Modifier,
     viewModel: MovieListViewModel,
-    openMovieDetailScreen: (id: Int) -> Unit
+    openMovieDetailScreen: (id: Int) -> Unit,
+    onBackClick: () -> Unit
 ) {
 
     val uiState by viewModel.movies.collectAsStateWithLifecycle()
@@ -43,6 +45,10 @@ fun MovieListScreen(
         }
     }
     Column(modifier.fillMaxSize()) {
+        CustomTopBar(
+            title = "Movie List",
+            onBackClick = onBackClick
+        )
         LazyVerticalGrid(
             modifier = modifier.fillMaxSize(),
             columns = GridCells.Fixed(2),
