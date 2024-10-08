@@ -27,8 +27,13 @@ class SearchMovieInteractor(
                     ResultWrapper.Loading -> emit(BaseUIModel.Loading)
                     ResultWrapper.NetworkError -> emit(BaseUIModel.Error("Network Error"))
                     is ResultWrapper.Success -> {
+                        val model = if (page == 1) {
+                            MovieListUIModel()
+                        } else {
+                            currentModel
+                        }
                         val uiModel = state.value.toUIModel(
-                            currentModel,
+                            model,
                             movieType = MovieType.UPCOMING
                         )
                         emit(BaseUIModel.Success(uiModel))
