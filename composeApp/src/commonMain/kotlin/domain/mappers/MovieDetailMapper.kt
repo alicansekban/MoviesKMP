@@ -15,7 +15,7 @@ fun MovieDetailResponse.toUIModel(): MovieDetailUIModel {
         imageUrl = Constants.BASE_POSTER_URL + this.poster_path,
         overview = overview,
         duration = "${this.runtime} min.",
-        voteAvg = vote_average.toString(),
+        voteAvg = vote_average.toString().take(3),
         releaseDate = release_date
     )
 }
