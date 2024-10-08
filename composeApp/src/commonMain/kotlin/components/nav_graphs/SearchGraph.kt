@@ -4,6 +4,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import ui.search.SearchMovieScreen
+import utils.MovieDetailRoute
 import utils.SearchHost
 import utils.SearchRoute
 
@@ -13,7 +15,12 @@ fun NavGraphBuilder.searchGraph(navController: NavController) {
         startDestination = SearchRoute,
     ) {
         composable<SearchRoute> {
-
+            SearchMovieScreen(
+                openMovieDetailScreen = {
+                    val route = MovieDetailRoute(it)
+                    navController.navigate(route)
+                }
+            )
         }
 
     }
