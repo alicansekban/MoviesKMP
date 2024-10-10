@@ -34,6 +34,7 @@ fun CustomWidget(
     openListScreen: () -> Unit = {},
     openMovieDetailScreen: (id: Int) -> Unit,
     getNextPage: () -> Unit = {},
+    showSeeAll: Boolean = true
 ) {
     val listState = rememberLazyListState()
     val shouldFetchNextPage by remember {
@@ -56,7 +57,7 @@ fun CustomWidget(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
-                .clickable { openListScreen() },
+                .clickable(enabled = showSeeAll) { openListScreen() },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -66,10 +67,12 @@ fun CustomWidget(
                     text = it,
                 )
             }
-            Text(
-                text = "View all",
-                textDecoration = TextDecoration.Underline,
-            )
+            if (showSeeAll) {
+                Text(
+                    text = "View all",
+                    textDecoration = TextDecoration.Underline,
+                )
+            }
         }
         LazyRow(
             Modifier.fillMaxWidth(),

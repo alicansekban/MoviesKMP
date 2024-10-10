@@ -89,7 +89,8 @@ fun MovieDetailScreen(
                             currentModel = uiState.similarMovies
                         )
                     }
-                }
+                },
+                showSeeAll = false
             )
         }
 
@@ -110,7 +111,8 @@ fun MovieDetailScreen(
                             currentModel = uiState.recommendations
                         )
                     }
-                }
+                },
+                showSeeAll = false
             )
         }
 
