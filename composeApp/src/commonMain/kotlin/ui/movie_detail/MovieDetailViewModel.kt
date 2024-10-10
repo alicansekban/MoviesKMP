@@ -6,6 +6,7 @@ import domain.interactors.MovieDetailInteractor
 import domain.models.BaseUIModel
 import domain.models.MovieCreditsUIModel
 import domain.models.MovieDetailUIModel
+import domain.models.MovieListUIModel
 import domain.models.MovieReviewsUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -40,12 +41,30 @@ class MovieDetailViewModel(private val interactor: MovieDetailInteractor) : View
         SharingStarted.WhileSubscribed(10000L),
         BaseUIModel.Empty
     )
+
+    private val _recommendations =
+        MutableStateFlow<BaseUIModel<MovieListUIModel>>(BaseUIModel.Empty)
+    val recommendations = _recommendations.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(10000L),
+        BaseUIModel.Empty
+    )
+
+    private val _similarMovies =
+        MutableStateFlow<BaseUIModel<MovieListUIModel>>(BaseUIModel.Empty)
+    val similarMovies = _similarMovies.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(10000L),
+        BaseUIModel.Empty
+    )
+
     fun callApiCalls(id: Int) {
         getMovieImages(id)
         getMovieDetail(id)
         getMovieCredits(id)
         getMovieReviews(id)
-
+        getRecommendations(id, 1, MovieListUIModel())
+        getSimilarMovies(id, 1, MovieListUIModel())
     }
 
     private fun getMovieDetail(id: Int) {
@@ -78,6 +97,21 @@ class MovieDetailViewModel(private val interactor: MovieDetailInteractor) : View
                 _reviews.value = it
             }
         }
+    }
+    fun getRecommendations(id: Int, page: Int, currentModel: MovieListUIModel) {
+        viewModelScope.launch {
+            interactor.getRecommendations(id = id, page = page, currentModel = currentModel)
+                .collect {
+                    _recommendations.value = it
+                }
+        }
+    }
 
+    fun getSimilarMovies(id: Int, page: Int, currentModel: MovieListUIModel) {
+        viewModelScope.launch {
+            interactor.getSimilarMovies(id = id, page = page, currentModel = currentModel).collect {
+                _similarMovies.value = it
+            }
+        }
     }
 }
