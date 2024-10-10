@@ -60,7 +60,7 @@ fun BottomBar(
     Column(modifier = Modifier.fillMaxWidth()) {
         AnimatedVisibility(visible = isBottomBarVisible) {
             NavigationBar(
-                containerColor = MaterialTheme.colorScheme.background,
+                containerColor = Color.White,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 items.forEach { item ->
