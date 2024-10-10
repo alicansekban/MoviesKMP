@@ -41,22 +41,13 @@ class MovieDetailViewModel(private val interactor: MovieDetailInteractor) : View
         SharingStarted.WhileSubscribed(10000L),
         BaseUIModel.Empty
     )
-
-    private val _recommendations =
-        MutableStateFlow<BaseUIModel<MovieListUIModel>>(BaseUIModel.Empty)
-    val recommendations = _recommendations.stateIn(
+    private val _uiState = MutableStateFlow(MovieDetailState())
+    val uiState = _uiState.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(10000L),
-        BaseUIModel.Empty
+        MovieDetailState()
     )
 
-    private val _similarMovies =
-        MutableStateFlow<BaseUIModel<MovieListUIModel>>(BaseUIModel.Empty)
-    val similarMovies = _similarMovies.stateIn(
-        viewModelScope,
-        SharingStarted.WhileSubscribed(10000L),
-        BaseUIModel.Empty
-    )
 
     fun callApiCalls(id: Int) {
         getMovieImages(id)
@@ -101,16 +92,21 @@ class MovieDetailViewModel(private val interactor: MovieDetailInteractor) : View
     fun getRecommendations(id: Int, page: Int, currentModel: MovieListUIModel) {
         viewModelScope.launch {
             interactor.getRecommendations(id = id, page = page, currentModel = currentModel)
-                .collect {
-                    _recommendations.value = it
+                .collect { state ->
+                    if (state is BaseUIModel.Success) {
+                        _uiState.value = _uiState.value.copy(recommendations = state.data)
+                    }
                 }
         }
     }
 
     fun getSimilarMovies(id: Int, page: Int, currentModel: MovieListUIModel) {
         viewModelScope.launch {
-            interactor.getSimilarMovies(id = id, page = page, currentModel = currentModel).collect {
-                _similarMovies.value = it
+            interactor.getSimilarMovies(id = id, page = page, currentModel = currentModel)
+                .collect { state ->
+                    if (state is BaseUIModel.Success) {
+                        _uiState.value = _uiState.value.copy(similarMovies = state.data)
+                    }
             }
         }
     }

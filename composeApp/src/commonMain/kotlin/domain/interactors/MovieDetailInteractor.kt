@@ -124,14 +124,14 @@ class MovieDetailInteractor(
     ): Flow<BaseUIModel<MovieListUIModel>> {
         return flow {
             emit(BaseUIModel.Loading)
-            repository.getSimilarMovies(id, page = page).collect { state ->
+            repository.getSimilarMovies(id = id, page = page).collect { state ->
                 when (state) {
                     is ResultWrapper.GenericError -> emit(BaseUIModel.Error(state.error ?: "Error"))
                     ResultWrapper.Loading -> emit(BaseUIModel.Loading)
                     ResultWrapper.NetworkError -> emit(BaseUIModel.Error("Network Error"))
                     is ResultWrapper.Success -> {
                         val uiModel = state.value.toUIModel(
-                            currentModel,
+                            currentModel = currentModel,
                             movieType = MovieType.SIMILAR
                         )
                         emit(BaseUIModel.Success(uiModel))

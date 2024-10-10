@@ -50,7 +50,7 @@ class MoviesRepository(private val apiService: ApiService) {
         flow { emit(apiService.getMovieRecommendations(id, page)) }.flowOn(Dispatchers.IO)
 
     fun getSimilarMovies(id: Int, page: Int): Flow<ResultWrapper<BaseMoviesResponse>> =
-        flow { emit(apiService.getSimilarMovies(id, page)) }.flowOn(Dispatchers.IO)
+        flow { emit(apiService.getSimilarMovies(id = id, page = page)) }.flowOn(Dispatchers.IO)
 
 
 }

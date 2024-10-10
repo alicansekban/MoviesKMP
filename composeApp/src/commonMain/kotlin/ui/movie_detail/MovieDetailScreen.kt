@@ -1,5 +1,6 @@
 package ui.movie_detail
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,15 +24,16 @@ import ui.movie_detail.components.MovieDetails
 fun MovieDetailScreen(
     modifier: Modifier = Modifier,
     viewModel: MovieDetailViewModel,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    openMovieDetailScreen: (id: Int) -> Unit,
+    movieId: Int
 ) {
 
     val movieDetailState by viewModel.movieDetail.collectAsStateWithLifecycle()
     val imagesState by viewModel.images.collectAsStateWithLifecycle()
     val creditsState by viewModel.credits.collectAsStateWithLifecycle()
     val reviewsState by viewModel.reviews.collectAsStateWithLifecycle()
-    val recommendationsState by viewModel.recommendations.collectAsStateWithLifecycle()
-    val similarMoviesState by viewModel.similarMovies.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier.fillMaxSize().verticalScroll(rememberScrollState()),
@@ -70,43 +72,47 @@ fun MovieDetailScreen(
                 MovieDetailCast(cast = credits)
             }
         }
-
-        when (recommendationsState) {
-            BaseUIModel.Empty -> {}
-            is BaseUIModel.Error -> {}
-            BaseUIModel.Loading -> {}
-            is BaseUIModel.Success -> {
-                val recommendations = (recommendationsState as BaseUIModel.Success).data
-                val widgetModel = MovieWidgetComponentModel(
-                    title = "Recommendations",
-                    items = recommendations.movies.map { it.toWidgetModel() }
-                )
-                CustomWidget(
-                    model = widgetModel,
-                    openListScreen = {},
-                    openMovieDetailScreen = {}
-                )
-            }
+        AnimatedVisibility(uiState.similarMovies.movies.isNotEmpty()) {
+            val widgetModel = MovieWidgetComponentModel(
+                title = "Similar Movies",
+                items = uiState.similarMovies.movies.map { it.toWidgetModel() }
+            )
+            CustomWidget(
+                model = widgetModel,
+                openListScreen = {},
+                openMovieDetailScreen = openMovieDetailScreen,
+                getNextPage = {
+                    if (uiState.similarMovies.canLoadMore) {
+                        viewModel.getSimilarMovies(
+                            id = movieId,
+                            page = uiState.similarMovies.page.plus(1),
+                            currentModel = uiState.similarMovies
+                        )
+                    }
+                }
+            )
         }
 
-        when (similarMoviesState) {
-            BaseUIModel.Empty -> {}
-            is BaseUIModel.Error -> {}
-            BaseUIModel.Loading -> {}
-            is BaseUIModel.Success -> {
-                val similar = (similarMoviesState as BaseUIModel.Success).data
-                val widgetModel = MovieWidgetComponentModel(
-                    title = "Similar Movies",
-                    items = similar.movies.map { it.toWidgetModel() }
-                )
-                CustomWidget(
-                    model = widgetModel,
-                    openListScreen = {},
-                    openMovieDetailScreen = {}
-                )
-            }
+        AnimatedVisibility(uiState.recommendations.movies.isNotEmpty()) {
+            val widgetModel = MovieWidgetComponentModel(
+                title = "Recommendations",
+                items = uiState.recommendations.movies.map { it.toWidgetModel() }
+            )
+            CustomWidget(
+                model = widgetModel,
+                openListScreen = {},
+                openMovieDetailScreen = openMovieDetailScreen,
+                getNextPage = {
+                    if (uiState.recommendations.canLoadMore) {
+                        viewModel.getRecommendations(
+                            id = movieId,
+                            page = uiState.recommendations.page.plus(1),
+                            currentModel = uiState.recommendations
+                        )
+                    }
+                }
+            )
         }
-
 
     }
 }

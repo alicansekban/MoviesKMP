@@ -60,7 +60,11 @@ fun NavGraphBuilder.homeGraph(navController: NavController) {
             MovieDetailScreen(
                 viewModel = viewModel, onBackClick = {
                     navController.popBackStack()
-                }
+                },
+                openMovieDetailScreen = { id ->
+                    val route = MovieDetailRoute(id)
+                },
+                movieId = args.movieId
             )
 
         }

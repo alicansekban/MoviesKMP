@@ -12,9 +12,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,8 +32,21 @@ import components.imageView.CustomImageView
 fun CustomWidget(
     model: MovieWidgetComponentModel,
     openListScreen: () -> Unit = {},
-    openMovieDetailScreen: (id: Int) -> Unit
+    openMovieDetailScreen: (id: Int) -> Unit,
+    getNextPage: () -> Unit = {},
 ) {
+    val listState = rememberLazyListState()
+    val shouldFetchNextPage by remember {
+        derivedStateOf {
+            val lastVisibleIndex = listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index
+            lastVisibleIndex != null &&
+                    lastVisibleIndex >= model.items.size - 10
+        }
+    }
+    LaunchedEffect(shouldFetchNextPage) {
+        getNextPage.invoke()
+
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -53,7 +71,11 @@ fun CustomWidget(
                 textDecoration = TextDecoration.Underline,
             )
         }
-        LazyRow(Modifier.fillMaxWidth(), contentPadding = PaddingValues(start = 16.dp)) {
+        LazyRow(
+            Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(start = 16.dp),
+            state = listState
+        ) {
             items(model.items, key = { it.id ?: 0 }) {
                 WidgetItem(item = it, openMovieDetailScreen = openMovieDetailScreen)
             }
