@@ -20,6 +20,9 @@ enum class MovieType(val type: String) {
     UPCOMING("upcoming"),
     NOW_PLAYING("now_playing"),
     TOP_RATED("top_rated"),
-    POPULAR("popular")
+    POPULAR("popular"),
+    SIMILAR("similar"),
+    RECOMMENDATIONS("recommendations"),
+    SEARCH("search")
 }
 

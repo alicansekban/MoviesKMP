@@ -34,7 +34,7 @@ class SearchMovieInteractor(
                         }
                         val uiModel = state.value.toUIModel(
                             model,
-                            movieType = MovieType.UPCOMING
+                            movieType = MovieType.SEARCH
                         )
                         emit(BaseUIModel.Success(uiModel))
                     }

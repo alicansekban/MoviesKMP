@@ -5,7 +5,9 @@ import domain.mappers.toUIModel
 import domain.models.BaseUIModel
 import domain.models.MovieCreditsUIModel
 import domain.models.MovieDetailUIModel
+import domain.models.MovieListUIModel
 import domain.models.MovieReviewsUIModel
+import domain.models.MovieType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import utils.Constants
@@ -84,6 +86,54 @@ class MovieDetailInteractor(
                             it.toUIModel()
                         } ?: emptyList()
 
+                        emit(BaseUIModel.Success(uiModel))
+                    }
+                }
+            }
+        }
+    }
+
+    fun getRecommendations(
+        id: Int,
+        page: Int,
+        currentModel: MovieListUIModel
+    ): Flow<BaseUIModel<MovieListUIModel>> {
+        return flow {
+            emit(BaseUIModel.Loading)
+            repository.getMovieRecommendations(id, page = page).collect { state ->
+                when (state) {
+                    is ResultWrapper.GenericError -> emit(BaseUIModel.Error(state.error ?: "Error"))
+                    ResultWrapper.Loading -> emit(BaseUIModel.Loading)
+                    ResultWrapper.NetworkError -> emit(BaseUIModel.Error("Network Error"))
+                    is ResultWrapper.Success -> {
+                        val uiModel = state.value.toUIModel(
+                            currentModel,
+                            movieType = MovieType.RECOMMENDATIONS
+                        )
+                        emit(BaseUIModel.Success(uiModel))
+                    }
+                }
+            }
+        }
+    }
+
+    fun getSimilarMovies(
+        id: Int,
+        page: Int,
+        currentModel: MovieListUIModel
+    ): Flow<BaseUIModel<MovieListUIModel>> {
+        return flow {
+            emit(BaseUIModel.Loading)
+            repository.getSimilarMovies(id, page = page).collect { state ->
+                when (state) {
+                    is ResultWrapper.GenericError -> emit(BaseUIModel.Error(state.error ?: "Error"))
+                    ResultWrapper.Loading -> emit(BaseUIModel.Loading)
+                    ResultWrapper.NetworkError -> emit(BaseUIModel.Error("Network Error"))
+                    is ResultWrapper.Success -> {
+                        val uiModel = state.value.toUIModel(
+                            currentModel,
+                            movieType = MovieType.SIMILAR
+                        )
                         emit(BaseUIModel.Success(uiModel))
                     }
                 }

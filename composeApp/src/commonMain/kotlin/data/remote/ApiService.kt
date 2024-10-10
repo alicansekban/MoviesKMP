@@ -118,4 +118,25 @@ class ApiService(
             }.body()
         }
 
+    suspend fun getMovieRecommendations(id: Int, page: Int): ResultWrapper<BaseMoviesResponse> =
+        safeApiCall(Dispatchers.IO) {
+            client.get(urlString = Constants.BASE_URL) {
+                url {
+                    appendPathSegments("movie", id.toString(), "recommendations")
+                    parameters.append("page", page.toString())
+
+                }
+            }.body()
+        }
+
+    suspend fun getSimilarMovies(id: Int, page: Int): ResultWrapper<BaseMoviesResponse> =
+        safeApiCall(Dispatchers.IO) {
+            client.get(urlString = Constants.BASE_URL) {
+                url {
+                    appendPathSegments("movie", id.toString(), "similar")
+                    parameters.append("page", page.toString())
+                }
+            }.body()
+        }
+
 }
