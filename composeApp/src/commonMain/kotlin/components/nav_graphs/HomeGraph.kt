@@ -63,6 +63,7 @@ fun NavGraphBuilder.homeGraph(navController: NavController) {
                 },
                 openMovieDetailScreen = { id ->
                     val route = MovieDetailRoute(id)
+                    navController.navigate(route)
                 },
                 movieId = args.movieId
             )

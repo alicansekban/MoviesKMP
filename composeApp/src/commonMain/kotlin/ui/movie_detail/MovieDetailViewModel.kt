@@ -8,6 +8,8 @@ import domain.models.MovieCreditsUIModel
 import domain.models.MovieDetailUIModel
 import domain.models.MovieListUIModel
 import domain.models.MovieReviewsUIModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -49,13 +51,22 @@ class MovieDetailViewModel(private val interactor: MovieDetailInteractor) : View
     )
 
 
+
     fun callApiCalls(id: Int) {
-        getMovieImages(id)
-        getMovieDetail(id)
-        getMovieCredits(id)
-        getMovieReviews(id)
-        getRecommendations(id, 1, MovieListUIModel())
-        getSimilarMovies(id, 1, MovieListUIModel())
+        viewModelScope.launch {
+            // Tüm async çağrılar paralel olarak başlatılır ve tümünün bitmesi beklenir
+            val tasks = listOf(
+                async { getMovieImages(id) },
+                async { getMovieDetail(id) },
+                async { getMovieCredits(id) },
+                async { getMovieReviews(id) },
+                async { getRecommendations(id, 1, MovieListUIModel()) },
+                async { getSimilarMovies(id, 1, MovieListUIModel()) }
+            )
+
+            // Tüm async işlemler tamamlanana kadar bekliyoruz
+            tasks.awaitAll()
+        }
     }
 
     private fun getMovieDetail(id: Int) {
