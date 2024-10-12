@@ -50,8 +50,6 @@ class MovieDetailViewModel(private val interactor: MovieDetailInteractor) : View
         MovieDetailState()
     )
 
-
-
     fun callApiCalls(id: Int) {
         viewModelScope.launch {
             // Tüm async çağrılar paralel olarak başlatılır ve tümünün bitmesi beklenir
@@ -66,6 +64,7 @@ class MovieDetailViewModel(private val interactor: MovieDetailInteractor) : View
 
             // Tüm async işlemler tamamlanana kadar bekliyoruz
             tasks.awaitAll()
+            _uiState.value = _uiState.value.copy(showUi = true)
         }
     }
 
