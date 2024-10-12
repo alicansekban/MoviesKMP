@@ -18,6 +18,7 @@ import components.widget.toWidgetModel
 import domain.models.BaseUIModel
 import ui.movie_detail.components.MovieDetailCast
 import ui.movie_detail.components.MovieDetailPager
+import ui.movie_detail.components.MovieDetailReview
 import ui.movie_detail.components.MovieDetails
 
 @Composable
@@ -121,6 +122,20 @@ fun MovieDetailScreen(
                         },
                         showSeeAll = false
                     )
+                }
+                when (reviewsState) {
+                    BaseUIModel.Empty -> {}
+                    is BaseUIModel.Error -> {}
+                    BaseUIModel.Loading -> {}
+                    is BaseUIModel.Success -> {
+                        val reviews = (reviewsState as BaseUIModel.Success).data
+                        MovieDetailReview(
+                            reviews = reviews,
+                            onSeeAllClick = {
+
+                            }
+                        )
+                    }
                 }
             }
         }
