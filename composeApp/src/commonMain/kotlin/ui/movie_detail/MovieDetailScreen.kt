@@ -27,7 +27,8 @@ fun MovieDetailScreen(
     viewModel: MovieDetailViewModel,
     onBackClick: () -> Unit,
     openMovieDetailScreen: (id: Int) -> Unit,
-    movieId: Int
+    movieId: Int,
+    openReviewScreen: (id: Int) -> Unit
 ) {
 
     val movieDetailState by viewModel.movieDetail.collectAsStateWithLifecycle()
@@ -128,11 +129,11 @@ fun MovieDetailScreen(
                     is BaseUIModel.Error -> {}
                     BaseUIModel.Loading -> {}
                     is BaseUIModel.Success -> {
-                        val reviews = (reviewsState as BaseUIModel.Success).data
+                        val review = (reviewsState as BaseUIModel.Success).data
                         MovieDetailReview(
-                            reviews = reviews,
+                            reviews = review.reviews,
                             onSeeAllClick = {
-
+                                openReviewScreen.invoke(movieId)
                             }
                         )
                     }

@@ -37,7 +37,7 @@ class MovieDetailViewModel(private val interactor: MovieDetailInteractor) : View
         BaseUIModel.Empty
     )
     private val _reviews =
-        MutableStateFlow<BaseUIModel<List<MovieReviewsUIModel>>>(BaseUIModel.Empty)
+        MutableStateFlow<BaseUIModel<MovieReviewsUIModel>>(BaseUIModel.Empty)
     val reviews = _reviews.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(10000L),

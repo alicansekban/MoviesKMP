@@ -73,7 +73,7 @@ class MovieDetailInteractor(
         }
     }
 
-    fun getMovieReviews(id: Int, page: Int): Flow<BaseUIModel<List<MovieReviewsUIModel>>> {
+    fun getMovieReviews(id: Int, page: Int,currentModel: MovieReviewsUIModel = MovieReviewsUIModel()): Flow<BaseUIModel<MovieReviewsUIModel>> {
         return flow {
             emit(BaseUIModel.Loading)
             repository.getMovieReviews(id, page).collect { state ->
@@ -82,9 +82,7 @@ class MovieDetailInteractor(
                     ResultWrapper.Loading -> emit(BaseUIModel.Loading)
                     ResultWrapper.NetworkError -> emit(BaseUIModel.Error("Network Error"))
                     is ResultWrapper.Success -> {
-                        val uiModel = state.value.results?.map {
-                            it.toUIModel()
-                        } ?: emptyList()
+                        val uiModel = state.value.toUIModel()
 
                         emit(BaseUIModel.Success(uiModel))
                     }

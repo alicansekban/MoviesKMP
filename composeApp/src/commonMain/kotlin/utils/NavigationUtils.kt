@@ -26,3 +26,6 @@ object SearchHost
 
 @Serializable
 object SearchRoute
+
+@Serializable
+data class MovieReviewsRoute(val movieId: Int)

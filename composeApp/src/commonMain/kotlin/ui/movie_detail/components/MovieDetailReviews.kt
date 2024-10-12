@@ -18,12 +18,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import domain.models.MovieReviewsItemUIModel
 import domain.models.MovieReviewsUIModel
 
 @Composable
 fun MovieDetailReview(
     modifier: Modifier = Modifier,
-    reviews: List<MovieReviewsUIModel>,
+    reviews: List<MovieReviewsItemUIModel>,
     onSeeAllClick: () -> Unit
 ) {
 

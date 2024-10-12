@@ -14,10 +14,13 @@ import ui.movie_detail.MovieDetailScreen
 import ui.movie_detail.MovieDetailViewModel
 import ui.movie_list.MovieListScreen
 import ui.movie_list.MovieListViewModel
+import ui.movie_reviews.MovieReviewsScreen
+import ui.movie_reviews.MovieReviewsViewModel
 import utils.HomeHost
 import utils.HomeRoute
 import utils.MovieDetailRoute
 import utils.MovieListRoute
+import utils.MovieReviewsRoute
 
 fun NavGraphBuilder.homeGraph(navController: NavController) {
 
@@ -76,9 +79,26 @@ fun NavGraphBuilder.homeGraph(navController: NavController) {
                     val route = MovieDetailRoute(id)
                     navController.navigate(route)
                 },
-                movieId = args.movieId
+                movieId = args.movieId,
+                openReviewScreen = {movieId ->
+                    val route = MovieReviewsRoute(movieId)
+                    navController.navigate(route)
+                }
             )
 
+        }
+
+        composable<MovieReviewsRoute> {
+            val args = it.toRoute<MovieReviewsRoute>()
+            val viewModel = koinViewModel<MovieReviewsViewModel>()
+            viewModel.getReviews(args.movieId, 1)
+            MovieReviewsScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                viewModel = viewModel,
+                movieID = args.movieId
+            )
         }
     }
 }
