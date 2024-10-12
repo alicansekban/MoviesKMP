@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import domain.models.MovieReviewsItemUIModel
 import domain.models.MovieReviewsUIModel
@@ -48,7 +49,7 @@ fun MovieDetailReview(
         }
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(start = 16.dp),
+            contentPadding = PaddingValues(16.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(
@@ -57,7 +58,7 @@ fun MovieDetailReview(
             ) {
                 Column(modifier = Modifier.width(200.dp).height(200.dp)) {
                     it.author?.let { it1 -> Text(text = "Author: $it1",style = MaterialTheme.typography.titleMedium) }
-                    it.content?.let { it1 -> Text(it1,style = MaterialTheme.typography.bodyMedium) }
+                    it.content?.let { it1 -> Text(it1,style = MaterialTheme.typography.bodyMedium, overflow = TextOverflow.Ellipsis) }
                 }
             }
         }
