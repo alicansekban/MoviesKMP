@@ -3,10 +3,13 @@ package di
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
-fun initKoin(config : KoinAppDeclaration ?= null) {
+fun initKoin(config: KoinAppDeclaration? = null) {
     startKoin {
         config?.invoke(this)
-        modules(provideHttpClientModule, provideRepositoryModule, provideViewModelModule)
+        modules(
+            provideHttpClientModule, provideRepositoryModule, provideViewModelModule,
+            interactorModule, serviceModule
+        )
     }
 }
 

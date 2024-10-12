@@ -15,7 +15,7 @@ import utils.Constants
 import utils.ResultWrapper
 import utils.safeApiCall
 
-class ApiService(
+class MoviesApiService(
     private val client: HttpClient
 ) {
 
