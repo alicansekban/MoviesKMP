@@ -1,9 +1,9 @@
 package domain.mappers
 
-import data.response.CastItem
-import data.response.MovieDetailResponse
-import data.response.MovieReviewResponse
-import data.response.MovieReviewResponseItem
+import data.response.movie.CastItem
+import data.response.movie.MovieDetailResponse
+import data.response.movie.MovieReviewResponse
+import data.response.movie.MovieReviewResponseItem
 import domain.models.MovieCreditsUIModel
 import domain.models.MovieDetailUIModel
 import domain.models.MovieReviewsItemUIModel

@@ -1,7 +1,7 @@
 package domain.mappers
 
-import data.response.BaseMoviesResponse
-import data.response.MovieResponse
+import data.response.movie.BaseMoviesResponse
+import data.response.movie.MovieResponse
 import domain.models.MovieListUIModel
 import domain.models.MovieType
 import domain.models.MovieUIModel

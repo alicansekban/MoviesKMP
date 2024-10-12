@@ -1,10 +1,10 @@
 package data.remote
 
-import data.response.BaseMoviesResponse
-import data.response.MovieCreditResponse
-import data.response.MovieDetailResponse
-import data.response.MovieImagesResponse
-import data.response.MovieReviewResponse
+import data.response.movie.BaseMoviesResponse
+import data.response.movie.MovieCreditResponse
+import data.response.movie.MovieDetailResponse
+import data.response.movie.MovieImagesResponse
+import data.response.movie.MovieReviewResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

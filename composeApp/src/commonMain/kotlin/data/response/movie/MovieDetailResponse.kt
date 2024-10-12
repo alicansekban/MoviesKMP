@@ -1,4 +1,4 @@
-package data.response
+package data.response.movie
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
