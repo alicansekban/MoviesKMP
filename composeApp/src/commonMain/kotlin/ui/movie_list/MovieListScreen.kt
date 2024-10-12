@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -71,17 +72,27 @@ fun MovieListScreen(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(uiState.uiModel.movies, key = { it.id ?: 0 }) {
-                    it.imageUrl?.let { it1 ->
-                        CustomImageView(
-                            imageUrl = it1,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp),
-                            onClick = {
-                                openMovieDetailScreen.invoke(it.id ?: 0)
-                            }
-                        )
+                items(uiState.uiModel.movies, key = { it.id ?: 0 }) { movie ->
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalAlignment =
+                        Alignment.CenterHorizontally
+                    ) {
+                        movie.imageUrl?.let { image ->
+                            CustomImageView(
+                                imageUrl = image,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(250.dp),
+                                onClick = {
+                                    openMovieDetailScreen.invoke(movie.id ?: 0)
+                                }
+                            )
+                        }
+                        movie.title?.let { title ->
+                            Text(title)
+                        }
                     }
                 }
             }
