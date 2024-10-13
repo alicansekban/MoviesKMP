@@ -1,13 +1,13 @@
-package domain.mappers
+package domain.mappers.movie
 
 import data.response.movie.CastItem
 import data.response.movie.MovieDetailResponse
 import data.response.movie.MovieReviewResponse
 import data.response.movie.MovieReviewResponseItem
-import domain.models.MovieCreditsUIModel
-import domain.models.MovieDetailUIModel
-import domain.models.MovieReviewsItemUIModel
-import domain.models.MovieReviewsUIModel
+import domain.models.movie.MovieCreditsUIModel
+import domain.models.movie.MovieDetailUIModel
+import domain.models.movie.MovieReviewsItemUIModel
+import domain.models.movie.MovieReviewsUIModel
 import utils.Constants
 
 fun MovieDetailResponse.toUIModel(): MovieDetailUIModel {

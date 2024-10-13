@@ -2,12 +2,12 @@ package ui.movie_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import domain.interactors.MovieDetailInteractor
+import domain.interactors.movie.MovieDetailInteractor
 import domain.models.BaseUIModel
-import domain.models.MovieCreditsUIModel
-import domain.models.MovieDetailUIModel
-import domain.models.MovieListUIModel
-import domain.models.MovieReviewsUIModel
+import domain.models.movie.MovieCreditsUIModel
+import domain.models.movie.MovieDetailUIModel
+import domain.models.movie.MovieListUIModel
+import domain.models.movie.MovieReviewsUIModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow

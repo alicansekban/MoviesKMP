@@ -29,3 +29,6 @@ object SearchRoute
 
 @Serializable
 data class MovieReviewsRoute(val movieId: Int)
+
+@Serializable
+data class PersonDetailRoute(val personId: Int)

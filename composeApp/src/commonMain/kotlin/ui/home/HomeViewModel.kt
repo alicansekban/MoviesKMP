@@ -2,9 +2,9 @@ package ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import domain.interactors.HomeInteractor
+import domain.interactors.movie.HomeInteractor
 import domain.models.BaseUIModel
-import domain.models.MovieUIModel
+import domain.models.movie.MovieUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart

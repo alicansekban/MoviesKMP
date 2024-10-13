@@ -2,9 +2,9 @@ package ui.movie_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import domain.interactors.MovieListInteractor
+import domain.interactors.movie.MovieListInteractor
 import domain.models.BaseUIModel
-import domain.models.MovieListUIModel
+import domain.models.movie.MovieListUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn

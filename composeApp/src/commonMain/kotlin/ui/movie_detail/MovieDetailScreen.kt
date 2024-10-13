@@ -28,7 +28,8 @@ fun MovieDetailScreen(
     onBackClick: () -> Unit,
     openMovieDetailScreen: (id: Int) -> Unit,
     movieId: Int,
-    openReviewScreen: (id: Int) -> Unit
+    openReviewScreen: (id: Int) -> Unit,
+    openPersonDetailScreen: (id: Int) -> Unit
 ) {
 
     val movieDetailState by viewModel.movieDetail.collectAsStateWithLifecycle()
@@ -78,7 +79,7 @@ fun MovieDetailScreen(
                     BaseUIModel.Loading -> {}
                     is BaseUIModel.Success -> {
                         val credits = (creditsState as BaseUIModel.Success).data
-                        MovieDetailCast(cast = credits)
+                        MovieDetailCast(cast = credits, onCastClick = openPersonDetailScreen)
                     }
                 }
                 AnimatedVisibility(uiState.similarMovies.movies.isNotEmpty()) {

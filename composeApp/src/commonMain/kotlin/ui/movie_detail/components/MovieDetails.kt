@@ -9,7 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import domain.models.MovieDetailUIModel
+import domain.models.movie.MovieDetailUIModel
 
 @Composable
 fun MovieDetails(

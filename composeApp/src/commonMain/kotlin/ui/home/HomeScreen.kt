@@ -22,8 +22,8 @@ import components.widget.CustomWidget
 import components.widget.MovieWidgetComponentModel
 import components.widget.toWidgetModel
 import domain.models.BaseUIModel
-import domain.models.MovieType
-import domain.models.MovieUIModel
+import domain.models.movie.MovieType
+import domain.models.movie.MovieUIModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 

@@ -7,7 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
-import domain.models.MovieListUIModel
+import domain.models.movie.MovieListUIModel
 import org.koin.compose.viewmodel.koinViewModel
 import ui.home.HomeScreen
 import ui.movie_detail.MovieDetailScreen
@@ -16,11 +16,14 @@ import ui.movie_list.MovieListScreen
 import ui.movie_list.MovieListViewModel
 import ui.movie_reviews.MovieReviewsScreen
 import ui.movie_reviews.MovieReviewsViewModel
+import ui.person.PersonDetailScreen
+import ui.person.PersonDetailViewModel
 import utils.HomeHost
 import utils.HomeRoute
 import utils.MovieDetailRoute
 import utils.MovieListRoute
 import utils.MovieReviewsRoute
+import utils.PersonDetailRoute
 
 fun NavGraphBuilder.homeGraph(navController: NavController) {
 
@@ -83,6 +86,10 @@ fun NavGraphBuilder.homeGraph(navController: NavController) {
                 openReviewScreen = {movieId ->
                     val route = MovieReviewsRoute(movieId)
                     navController.navigate(route)
+                },
+                openPersonDetailScreen = {personId ->
+                    val route = PersonDetailRoute(personId)
+                    navController.navigate(route)
                 }
             )
 
@@ -100,5 +107,19 @@ fun NavGraphBuilder.homeGraph(navController: NavController) {
                 movieID = args.movieId
             )
         }
+
+        composable<PersonDetailRoute> {
+            val args = it.toRoute<PersonDetailRoute>()
+            val viewModel = koinViewModel<PersonDetailViewModel>()
+            viewModel.callApiCalls(args.personId)
+            PersonDetailScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                viewModel = viewModel,
+            )
+        }
+
+
     }
 }

@@ -1,4 +1,4 @@
-package domain.models
+package domain.models.movie
 
 
 data class MovieReviewsUIModel(

@@ -1,6 +1,6 @@
 package ui.movie_list
 
-import domain.models.MovieListUIModel
+import domain.models.movie.MovieListUIModel
 
 
 sealed interface MovieListUIEvents {
