@@ -1,5 +1,6 @@
 package ui.favorites
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -55,7 +56,7 @@ fun FavoriteMoviesScreen(
         Column(modifier.fillMaxSize()) {
             CustomTopBar(
                 title = "Favorite Movies",
-                onBackClick = onBackClick
+                shouldShowBack = false
             )
             LazyVerticalGrid(
                 modifier = modifier.fillMaxSize(),
@@ -101,9 +102,14 @@ fun FavoriteMoviesScreen(
                 }
             }
         }
-        ListResetButton {
-            scope.launch {
-                gridState.animateScrollToItem(0)
+        AnimatedVisibility(
+            isScrollButtonVisible, modifier = Modifier
+                .align(Alignment.BottomEnd).padding(end = 12.dp, bottom = 24.dp)
+        ) {
+            ListResetButton {
+                scope.launch {
+                    gridState.animateScrollToItem(0)
+                }
             }
         }
     }
