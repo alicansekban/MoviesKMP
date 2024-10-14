@@ -1,24 +1,16 @@
 package ui.movie_list
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -27,11 +19,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import components.button.ListResetButton
-import components.imageView.CustomImageView
+import components.movie.MovieListItem
 import components.top_bar.CustomTopBar
 import kotlinx.coroutines.launch
 
@@ -79,38 +70,15 @@ fun MovieListScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(uiState.uiModel.movies, key = { it.id ?: 0 }) { movie ->
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalAlignment =
-                        Alignment.CenterHorizontally
-                    ) {
-                        Box(Modifier.fillMaxWidth().height(250.dp)) {
-                            movie.imageUrl?.let { image ->
-                                CustomImageView(
-                                    imageUrl = image,
-                                    modifier = Modifier.fillMaxSize(),
-                                    onClick = {
-                                        openMovieDetailScreen.invoke(movie.id ?: 0)
-                                    }
-                                )
-                            }
-                            val icon =
-                                if (movie.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder
-                            Icon(
-                                imageVector = icon,
-                                contentDescription = "",
-                                Modifier.clickable {
-                                    viewModel.onFavoriteClicked(movie)
-                                }.align(Alignment.TopEnd).padding(8.dp),
-                                tint = Color.Red
-                            )
+                    MovieListItem(
+                        movie = movie,
+                        onFavoriteClick = {
+                            viewModel.onFavoriteClicked(movie)
+                        },
+                        onItemClick = {
+                            openMovieDetailScreen.invoke(movie.id ?: 0)
                         }
-
-                        movie.title?.let { title ->
-                            Text(title)
-                        }
-                    }
+                    )
                 }
             }
         }
