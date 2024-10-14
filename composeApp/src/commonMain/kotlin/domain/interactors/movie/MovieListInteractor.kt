@@ -1,10 +1,12 @@
 package domain.interactors.movie
 
+import data.local.entity.MovieEntity
 import data.repository.MoviesRepository
 import domain.mappers.movie.toUIModel
 import domain.models.BaseUIModel
 import domain.models.movie.MovieListUIModel
 import domain.models.movie.MovieType
+import domain.models.movie.MovieUIModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
@@ -134,5 +136,27 @@ class MovieListInteractor(
                 }
             }
         }
+    }
+    suspend fun onFavoriteClicked(movie: MovieUIModel) {
+        if (movie.isFavorite) {
+            removeMovieFavorite(movie)
+        } else {
+            addMovieFavorite(movie)
+        }
+    }
+
+    private suspend fun addMovieFavorite(movie: MovieUIModel) {
+        val movieEntity = MovieEntity(
+            movieId = movie.id ?: 0,
+            movieTitle = movie.title ?: "",
+            moviePoster = movie.imageUrl ?: ""
+        )
+        repository.addMovieFavorite(movieEntity)
+
+
+    }
+
+    private suspend fun removeMovieFavorite(movie: MovieUIModel) {
+        repository.removeMovieFromFavorite(movie.id ?: 0)
     }
 }

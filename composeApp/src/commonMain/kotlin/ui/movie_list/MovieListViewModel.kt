@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import domain.interactors.movie.MovieListInteractor
 import domain.models.BaseUIModel
 import domain.models.movie.MovieListUIModel
+import domain.models.movie.MovieUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -47,6 +48,11 @@ class MovieListViewModel(
                 _movies.value = _movies.value.copy(isLoading = state is BaseUIModel.Loading)
 
             }
+        }
+    }
+    fun onFavoriteClicked(movie: MovieUIModel) {
+        viewModelScope.launch {
+            interactor.onFavoriteClicked(movie)
         }
     }
 
