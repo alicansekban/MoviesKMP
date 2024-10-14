@@ -1,5 +1,7 @@
 package data.repository
 
+import data.local.AppDatabase
+import data.local.entity.MovieEntity
 import data.remote.MoviesApiService
 import data.response.movie.BaseMoviesResponse
 import data.response.movie.MovieCreditResponse
@@ -13,7 +15,18 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import utils.ResultWrapper
 
-class MoviesRepository(private val moviesApiService: MoviesApiService) {
+class MoviesRepository(
+    private val moviesApiService: MoviesApiService,
+    private val localDb: AppDatabase
+) {
+
+    suspend fun addMovieFavorite(movieEntity: MovieEntity) {
+        localDb.getDao().insertMovie(movieEntity)
+    }
+
+    fun getFavoriteMovies(): Flow<List<MovieEntity>> {
+        return localDb.getDao().getAllMovies()
+    }
 
     fun getDiscoverMovies(page: Int): Flow<ResultWrapper<BaseMoviesResponse>> =
         flow { emit(moviesApiService.getDiscoverMovies(page)) }.flowOn(Dispatchers.IO)
@@ -50,7 +63,14 @@ class MoviesRepository(private val moviesApiService: MoviesApiService) {
         flow { emit(moviesApiService.getMovieRecommendations(id, page)) }.flowOn(Dispatchers.IO)
 
     fun getSimilarMovies(id: Int, page: Int): Flow<ResultWrapper<BaseMoviesResponse>> =
-        flow { emit(moviesApiService.getSimilarMovies(id = id, page = page)) }.flowOn(Dispatchers.IO)
+        flow {
+            emit(
+                moviesApiService.getSimilarMovies(
+                    id = id,
+                    page = page
+                )
+            )
+        }.flowOn(Dispatchers.IO)
 
 
 }
