@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import domain.interactors.movie.SearchMovieInteractor
 import domain.models.BaseUIModel
 import domain.models.movie.MovieListUIModel
+import domain.models.movie.MovieUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -70,7 +71,11 @@ class SearchMovieViewModel(
                     }
                 }
             }
-
+        }
+    }
+    fun onFavoriteClicked(movie: MovieUIModel) {
+        viewModelScope.launch {
+            interactor.onFavoriteClicked(movie)
         }
     }
 }
