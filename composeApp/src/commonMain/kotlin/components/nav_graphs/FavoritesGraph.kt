@@ -16,9 +16,6 @@ fun NavGraphBuilder.favoritesGraph(navController: NavController) {
     ) {
         composable<FavoritesRoute> {
             FavoriteMoviesScreen(
-                onBackClick = {
-                    navController.popBackStack()
-                },
                 openMovieDetailScreen = { movieId ->
                     val route = MovieDetailRoute(movieId)
                     navController.navigate(route)
