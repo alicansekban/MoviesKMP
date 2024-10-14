@@ -38,7 +38,6 @@ import org.koin.compose.viewmodel.koinViewModel
 fun FavoriteMoviesScreen(
     modifier: Modifier = Modifier,
     viewModel: FavoriteMoviesViewModel = koinViewModel(),
-    onBackClick: () -> Unit,
     openMovieDetailScreen: (id: Int) -> Unit
 ) {
     val gridState = rememberLazyGridState()
@@ -89,7 +88,7 @@ fun FavoriteMoviesScreen(
                                 imageVector = icon,
                                 contentDescription = "",
                                 Modifier.clickable {
-                                    // viewModel.onFavoriteClicked(movie)
+                                    viewModel.onFavoriteIconClicked(movie.id ?: 0)
                                 }.align(Alignment.TopEnd).padding(8.dp),
                                 tint = Color.Red
                             )

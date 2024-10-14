@@ -26,4 +26,10 @@ class FavoriteMoviesViewModel(
             }
         }
     }
+
+    fun onFavoriteIconClicked(movieId: Int) {
+        viewModelScope.launch {
+            interactor.removeMovieFavorite(movieId)
+        }
+    }
 }
