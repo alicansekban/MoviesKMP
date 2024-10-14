@@ -23,6 +23,9 @@ class MoviesRepository(
     suspend fun addMovieFavorite(movieEntity: MovieEntity) {
         localDb.getDao().insertMovie(movieEntity)
     }
+    suspend fun removeMovieFromFavorite(movieId: Int) {
+        localDb.getDao().removeMovie(movieId)
+    }
 
     fun getFavoriteMovies(): Flow<List<MovieEntity>> {
         return localDb.getDao().getAllMovies()

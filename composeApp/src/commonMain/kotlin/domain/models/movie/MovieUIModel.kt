@@ -14,6 +14,7 @@ data class MovieUIModel(
     val title: String? = null,
     val imageUrl: String? = null,
     val overview: String? = null,
+    val isFavorite: Boolean = false
 )
 
 enum class MovieType(val type: String) {

@@ -1,6 +1,8 @@
 package ui.movie_list
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +16,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -79,6 +83,12 @@ fun MovieListScreen(
                         horizontalAlignment =
                         Alignment.CenterHorizontally
                     ) {
+                        Image(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "",
+                            Modifier.clickable {
+                                viewModel.onFavoriteClicked(movie)
+                            })
                         movie.imageUrl?.let { image ->
                             CustomImageView(
                                 imageUrl = image,
