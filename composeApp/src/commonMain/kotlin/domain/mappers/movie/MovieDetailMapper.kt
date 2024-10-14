@@ -1,5 +1,6 @@
 package domain.mappers.movie
 
+import data.local.entity.MovieEntity
 import data.response.movie.CastItem
 import data.response.movie.MovieDetailResponse
 import data.response.movie.MovieReviewResponse
@@ -47,5 +48,14 @@ fun MovieReviewResponseItem.toUIModel(): MovieReviewsItemUIModel {
         author = author,
         content = content,
         url = url
+    )
+}
+
+fun MovieDetailUIModel.toEntity(): MovieEntity {
+    return MovieEntity(
+        movieId = id ?: 0,
+        movieTitle = title.orEmpty(),
+        movieOverview = overview.orEmpty(),
+        moviePoster = imageUrl.orEmpty()
     )
 }

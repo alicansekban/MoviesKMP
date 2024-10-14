@@ -31,6 +31,11 @@ class MoviesRepository(
         return localDb.getDao().getAllMovies()
     }
 
+    suspend fun isMovieFavorite(movieId: Int): Boolean {
+        val movie = localDb.getDao().getMovieById(movieId)
+        return movie != null
+    }
+
     fun getDiscoverMovies(page: Int): Flow<ResultWrapper<BaseMoviesResponse>> =
         flow { emit(moviesApiService.getDiscoverMovies(page)) }.flowOn(Dispatchers.IO)
 
