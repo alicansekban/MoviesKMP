@@ -8,4 +8,5 @@ data class MovieDetailUIModel(
     val duration: String? = null,
     val voteAvg: String? = null,
     val releaseDate: String? = null,
+    val isFavorite: Boolean = false
 )

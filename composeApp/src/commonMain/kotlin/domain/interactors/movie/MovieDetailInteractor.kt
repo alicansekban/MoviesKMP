@@ -1,6 +1,7 @@
 package domain.interactors.movie
 
 import data.repository.MoviesRepository
+import domain.mappers.movie.toEntity
 import domain.mappers.movie.toUIModel
 import domain.models.BaseUIModel
 import domain.models.movie.MovieCreditsUIModel
@@ -73,7 +74,11 @@ class MovieDetailInteractor(
         }
     }
 
-    fun getMovieReviews(id: Int, page: Int,currentModel: MovieReviewsUIModel = MovieReviewsUIModel()): Flow<BaseUIModel<MovieReviewsUIModel>> {
+    fun getMovieReviews(
+        id: Int,
+        page: Int,
+        currentModel: MovieReviewsUIModel = MovieReviewsUIModel()
+    ): Flow<BaseUIModel<MovieReviewsUIModel>> {
         return flow {
             emit(BaseUIModel.Loading)
             repository.getMovieReviews(id, page).collect { state ->
@@ -137,5 +142,25 @@ class MovieDetailInteractor(
                 }
             }
         }
+    }
+
+
+    suspend fun onFavoriteClicked(movie: MovieDetailUIModel): MovieDetailUIModel {
+        return if (movie.isFavorite) {
+            removeMovieFavorite(movie.id ?: 0)
+        } else {
+            addMovieFavorite(movie)
+        }
+    }
+
+    private suspend fun addMovieFavorite(movie: MovieDetailUIModel): MovieDetailUIModel {
+        val entity = movie.toEntity()
+        repository.addMovieFavorite(entity)
+        return movie.copy(isFavorite = true)
+    }
+
+    private suspend fun removeMovieFavorite(movieId: Int): MovieDetailUIModel {
+        repository.removeMovieFromFavorite(movieId)
+        return MovieDetailUIModel(isFavorite = false)
     }
 }

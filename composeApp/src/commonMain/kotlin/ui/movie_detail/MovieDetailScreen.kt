@@ -60,7 +60,15 @@ fun MovieDetailScreen(
                     BaseUIModel.Loading -> {}
                     is BaseUIModel.Success -> {
                         val images = (imagesState as BaseUIModel.Success).data
-                        MovieDetailPager(images = images)
+                        MovieDetailPager(
+                            images = images,
+                            onFavoriteClick = {
+                                viewModel.onFavoriteClicked(
+                                    movie = uiState.movieDetail
+                                )
+                            },
+                            isFavorite = uiState.movieDetail.isFavorite
+                        )
                     }
                 }
                 when (movieDetailState) {
@@ -70,6 +78,9 @@ fun MovieDetailScreen(
                     is BaseUIModel.Success -> {
                         val movieDetail = (movieDetailState as BaseUIModel.Success).data
                         MovieDetails(movieDetail = movieDetail)
+                        if (uiState.movieDetail.id == 0) {
+                            viewModel.updateMovieDetail(movieDetail)
+                        }
                     }
                 }
 

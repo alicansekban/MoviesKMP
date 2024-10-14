@@ -1,5 +1,6 @@
 package ui.movie_detail
 
+import domain.models.movie.MovieDetailUIModel
 import domain.models.movie.MovieListUIModel
 
 data class MovieDetailState(
@@ -7,4 +8,5 @@ data class MovieDetailState(
     val recommendations: MovieListUIModel = MovieListUIModel(),
     val similarMovies: MovieListUIModel = MovieListUIModel(),
     val showUi: Boolean = false,
+    val movieDetail: MovieDetailUIModel = MovieDetailUIModel(),
 )

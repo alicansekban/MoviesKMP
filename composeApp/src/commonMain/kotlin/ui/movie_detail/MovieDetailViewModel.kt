@@ -120,4 +120,16 @@ class MovieDetailViewModel(private val interactor: MovieDetailInteractor) : View
             }
         }
     }
+
+
+    fun onFavoriteClicked(movie: MovieDetailUIModel) {
+        viewModelScope.launch {
+            val updatedMovie = interactor.onFavoriteClicked(movie)
+            updateMovieDetail(updatedMovie)
+        }
+    }
+
+    fun updateMovieDetail(movie: MovieDetailUIModel) {
+        _uiState.value = _uiState.value.copy(movieDetail = movie)
+    }
 }
