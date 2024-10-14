@@ -1,7 +1,7 @@
 package domain.interactors.movie
 
-import data.local.entity.MovieEntity
 import data.repository.MoviesRepository
+import domain.mappers.movie.toEntity
 import domain.mappers.movie.toUIModel
 import domain.models.BaseUIModel
 import domain.models.movie.MovieListUIModel
@@ -15,6 +15,13 @@ import utils.ResultWrapper
 class MovieListInteractor(
     private val repository: MoviesRepository
 ) {
+    fun getMoviesType(
+        movieType: String,
+        page: Int,
+        currentModel: MovieListUIModel
+    ) {
+
+    }
 
     fun getMoviesByType(
         movieType: String,
@@ -146,13 +153,8 @@ class MovieListInteractor(
     }
 
     private suspend fun addMovieFavorite(movie: MovieUIModel) {
-        val movieEntity = MovieEntity(
-            movieId = movie.id ?: 0,
-            movieTitle = movie.title ?: "",
-            moviePoster = movie.imageUrl ?: ""
-        )
-        repository.addMovieFavorite(movieEntity)
-
+        val entity = movie.toEntity()
+        repository.addMovieFavorite(entity)
 
     }
 
