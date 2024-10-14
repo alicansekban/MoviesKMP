@@ -84,7 +84,7 @@ kotlin {
 
             // room db
 
-            implementation(libs.androidx.room.runtime)
+            implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
         }
         iosMain.dependencies {
@@ -139,6 +139,6 @@ room {
 }
 
 dependencies {
-    ksp(libs.androidx.room.compiler)
+    ksp(libs.room.compiler)
 }
 
