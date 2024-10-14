@@ -1,9 +1,9 @@
-package domain.interactors
+package domain.interactors.movie
 
 import data.repository.MoviesRepository
-import domain.mappers.toUIModel
+import domain.mappers.movie.toUIModel
 import domain.models.BaseUIModel
-import domain.models.MovieUIModel
+import domain.models.movie.MovieUIModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import utils.ResultWrapper

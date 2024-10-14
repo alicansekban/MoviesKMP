@@ -1,7 +1,7 @@
 package components.widget
 
-import domain.models.MovieType
-import domain.models.MovieUIModel
+import domain.models.movie.MovieType
+import domain.models.movie.MovieUIModel
 
 data class MovieWidgetComponentModel(
     val title: String? = null,

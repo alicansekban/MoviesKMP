@@ -1,6 +1,6 @@
 package ui.search
 
-import domain.models.MovieListUIModel
+import domain.models.movie.MovieListUIModel
 
 sealed interface SearchMovieEvents {
     data class OnSearchQueryChange(val query: String) : SearchMovieEvents

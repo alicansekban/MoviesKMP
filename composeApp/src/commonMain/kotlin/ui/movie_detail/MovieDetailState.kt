@@ -1,6 +1,6 @@
 package ui.movie_detail
 
-import domain.models.MovieListUIModel
+import domain.models.movie.MovieListUIModel
 
 data class MovieDetailState(
     val movieId: Int = 0,

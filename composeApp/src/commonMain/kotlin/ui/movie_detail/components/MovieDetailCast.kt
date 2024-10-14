@@ -1,5 +1,6 @@
 package ui.movie_detail.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,12 +18,13 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import components.imageView.CustomImageView
-import domain.models.MovieCreditsUIModel
+import domain.models.movie.MovieCreditsUIModel
 
 @Composable
 fun MovieDetailCast(
     modifier: Modifier = Modifier,
-    cast: List<MovieCreditsUIModel>
+    cast: List<MovieCreditsUIModel>,
+    onCastClick: (id: Int) -> Unit
 ) {
 
     LazyRow(
@@ -35,7 +37,9 @@ fun MovieDetailCast(
             key = { it.id ?: 0 },
         ) {
             Column(
-                modifier = Modifier.width(100.dp),
+                modifier = Modifier.width(100.dp).clickable {
+                    onCastClick.invoke(it.id ?: 0)
+                },
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -44,7 +48,9 @@ fun MovieDetailCast(
                         modifier = Modifier.size(100.dp)
                             .shadow(shape = CircleShape, elevation = 5.dp),
                         imageUrl = it1,
-                        onClick = {}
+                        onClick = {
+                            onCastClick.invoke(it.id ?: 0)
+                        }
                     )
                 }
                 it.characterName?.let {

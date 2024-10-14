@@ -1,10 +1,10 @@
-package domain.mappers
+package domain.mappers.movie
 
 import data.response.movie.BaseMoviesResponse
 import data.response.movie.MovieResponse
-import domain.models.MovieListUIModel
-import domain.models.MovieType
-import domain.models.MovieUIModel
+import domain.models.movie.MovieListUIModel
+import domain.models.movie.MovieType
+import domain.models.movie.MovieUIModel
 import utils.Constants
 
 fun MovieResponse.toUIModel(): MovieUIModel {
