@@ -7,6 +7,7 @@ import androidx.navigation.navigation
 import ui.favorites.FavoriteMoviesScreen
 import utils.FavoritesHost
 import utils.FavoritesRoute
+import utils.MovieDetailRoute
 
 fun NavGraphBuilder.favoritesGraph(navController: NavController) {
 
@@ -14,7 +15,15 @@ fun NavGraphBuilder.favoritesGraph(navController: NavController) {
         startDestination = FavoritesRoute,
     ) {
         composable<FavoritesRoute> {
-            FavoriteMoviesScreen()
+            FavoriteMoviesScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                openMovieDetailScreen = { movieId ->
+                    val route = MovieDetailRoute(movieId)
+                    navController.navigate(route)
+                }
+            )
         }
 
     }

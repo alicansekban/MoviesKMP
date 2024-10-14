@@ -2,8 +2,8 @@ package ui.favorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import data.local.entity.MovieEntity
 import domain.interactors.movie.FavoritesInteractor
+import domain.models.movie.MovieUIModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -11,8 +11,8 @@ class FavoriteMoviesViewModel(
     private val interactor: FavoritesInteractor
 ) : ViewModel() {
 
-    private val _favorites = MutableStateFlow<List<MovieEntity>>(emptyList())
-    val favorites: MutableStateFlow<List<MovieEntity>> = _favorites
+    private val _favorites = MutableStateFlow<List<MovieUIModel>>(emptyList())
+    val favorites: MutableStateFlow<List<MovieUIModel>> = _favorites
 
 
     init {

@@ -1,7 +1,6 @@
 package ui.movie_list
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,9 +14,11 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import components.button.ListResetButton
@@ -83,23 +85,28 @@ fun MovieListScreen(
                         horizontalAlignment =
                         Alignment.CenterHorizontally
                     ) {
-                        Image(
-                            imageVector = Icons.Default.Favorite,
-                            contentDescription = "",
-                            Modifier.clickable {
-                                viewModel.onFavoriteClicked(movie)
-                            })
-                        movie.imageUrl?.let { image ->
-                            CustomImageView(
-                                imageUrl = image,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(250.dp),
-                                onClick = {
-                                    openMovieDetailScreen.invoke(movie.id ?: 0)
-                                }
+                        Box(Modifier.fillMaxWidth().height(250.dp)) {
+                            movie.imageUrl?.let { image ->
+                                CustomImageView(
+                                    imageUrl = image,
+                                    modifier = Modifier.fillMaxSize(),
+                                    onClick = {
+                                        openMovieDetailScreen.invoke(movie.id ?: 0)
+                                    }
+                                )
+                            }
+                            val icon =
+                                if (movie.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = "",
+                                Modifier.clickable {
+                                    viewModel.onFavoriteClicked(movie)
+                                }.align(Alignment.TopEnd).padding(8.dp),
+                                tint = Color.Red
                             )
                         }
+
                         movie.title?.let { title ->
                             Text(title)
                         }
