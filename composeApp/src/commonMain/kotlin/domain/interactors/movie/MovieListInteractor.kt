@@ -8,6 +8,7 @@ import domain.models.movie.MovieListUIModel
 import domain.models.movie.MovieType
 import domain.models.movie.MovieUIModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import utils.ResultWrapper
@@ -15,15 +16,35 @@ import utils.ResultWrapper
 class MovieListInteractor(
     private val repository: MoviesRepository
 ) {
-    fun getMoviesType(
+    fun getMoviesByType(
         movieType: String,
         page: Int,
         currentModel: MovieListUIModel
-    ) {
-
+    ): Flow<BaseUIModel<MovieListUIModel>> {
+        return flow {
+            emit(BaseUIModel.Loading)
+            emitAll(
+                combine(
+                    getRemoteMoviesByType(movieType, page, currentModel),
+                    repository.getFavoriteMovies()
+                ) { remote, local ->
+                    when (remote) {
+                        BaseUIModel.Empty -> BaseUIModel.Empty
+                        is BaseUIModel.Error -> BaseUIModel.Error(remote.message)
+                        BaseUIModel.Loading -> BaseUIModel.Loading
+                        is BaseUIModel.Success -> {
+                            val updatedMovies = remote.data.movies.map { movie ->
+                                movie.copy(isFavorite = local.any { it.movieId == movie.id })
+                            }
+                            BaseUIModel.Success(remote.data.copy(movies = updatedMovies))
+                        }
+                    }
+                }
+            )
+        }
     }
 
-    fun getMoviesByType(
+    private fun getRemoteMoviesByType(
         movieType: String,
         page: Int,
         currentModel: MovieListUIModel
