@@ -31,6 +31,9 @@ import components.dialog.LoadingDialog
 import components.movie.MovieListItem
 import components.top_bar.CustomTopBar
 import kotlinx.coroutines.launch
+import movieskmp.composeapp.generated.resources.Res
+import movieskmp.composeapp.generated.resources.movie_list
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MovieListScreen(
@@ -67,7 +70,7 @@ fun MovieListScreen(
 
         Column(modifier.fillMaxSize()) {
             CustomTopBar(
-                title = "Movie List",
+                title = stringResource(Res.string.movie_list),
                 onBackClick = onBackClick
             )
             LazyVerticalGrid(

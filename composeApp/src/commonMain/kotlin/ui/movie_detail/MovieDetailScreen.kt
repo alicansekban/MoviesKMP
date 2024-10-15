@@ -17,6 +17,9 @@ import components.widget.CustomWidget
 import components.widget.MovieWidgetComponentModel
 import components.widget.toWidgetModel
 import domain.models.BaseUIModel
+import movieskmp.composeapp.generated.resources.Res
+import movieskmp.composeapp.generated.resources.movie_detail_title
+import org.jetbrains.compose.resources.stringResource
 import ui.movie_detail.components.MovieDetailCast
 import ui.movie_detail.components.MovieDetailPager
 import ui.movie_detail.components.MovieDetailReview
@@ -49,7 +52,7 @@ fun MovieDetailScreen(
     ) {
 
         CustomTopBar(
-            title = "Movie Detail",
+            title = stringResource(Res.string.movie_detail_title),
             onBackClick = onBackClick
         )
         AnimatedVisibility(uiState.showUi) {

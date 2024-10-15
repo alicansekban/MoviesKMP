@@ -29,6 +29,12 @@ import components.widget.toWidgetModel
 import domain.models.BaseUIModel
 import domain.models.movie.MovieType
 import domain.models.movie.MovieUIModel
+import movieskmp.composeapp.generated.resources.Res
+import movieskmp.composeapp.generated.resources.now_playing_movies
+import movieskmp.composeapp.generated.resources.popular_movies
+import movieskmp.composeapp.generated.resources.top_rated_movies
+import movieskmp.composeapp.generated.resources.up_coming_movies
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -90,7 +96,7 @@ fun HomeScreen(
                 val movies = (upComingMovies as BaseUIModel.Success).data
                 val widgetMovies = movies.map { it.toWidgetModel() }
                 val widgetModel = MovieWidgetComponentModel(
-                    title = "Up Coming Movies",
+                    title = stringResource(Res.string.up_coming_movies),
                     items = widgetMovies
                 )
 
@@ -116,7 +122,7 @@ fun HomeScreen(
                 val movies = (nowPlayingMovies as BaseUIModel.Success).data
                 val widgetMovies = movies.map { it.toWidgetModel() }
                 val widgetModel = MovieWidgetComponentModel(
-                    title = "Now Playing Movies",
+                    title = stringResource(Res.string.now_playing_movies),
                     items = widgetMovies
                 )
 
@@ -142,7 +148,7 @@ fun HomeScreen(
                 val movies = (popularMovies as BaseUIModel.Success).data
                 val widgetMovies = movies.map { it.toWidgetModel() }
                 val widgetModel = MovieWidgetComponentModel(
-                    title = "Popular Movies",
+                    title = stringResource(Res.string.popular_movies),
                     items = widgetMovies
                 )
 
@@ -168,7 +174,7 @@ fun HomeScreen(
                 val movies = (topRatedMovies as BaseUIModel.Success).data
                 val widgetMovies = movies.map { it.toWidgetModel() }
                 val widgetModel = MovieWidgetComponentModel(
-                    title = "Top Rated Movies",
+                    title = stringResource(Res.string.top_rated_movies),
                     items = widgetMovies
                 )
 

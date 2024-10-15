@@ -31,6 +31,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import components.dialog.LoadingDialog
 import components.movie.MovieListItem
+import movieskmp.composeapp.generated.resources.Res
+import movieskmp.composeapp.generated.resources.search_placeholder
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -79,7 +82,7 @@ fun SearchMovieScreen(
             },
             label = {
                 Text(
-                    text = "Search..."
+                    text = stringResource(Res.string.search_placeholder)
                 )
             },
             maxLines = 1,

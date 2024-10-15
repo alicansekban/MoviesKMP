@@ -1,0 +1,14 @@
+<resources>
+    <string name="search_placeholder">Search...</string>
+    <string name="favorites_title">Favorite Movies</string>
+    <string name="up_coming_movies">Up Coming Movies</string>
+    <string name="now_playing_movies">Now Playing Movies</string>
+    <string name="top_rated_movies">Top Rated Movies</string>
+    <string name="popular_movies">Popular Movies</string>
+    <string name="similar_movies">Similar Movies</string>
+    <string name="recommendations">Recommendations</string>
+    <string name="movie_detail_title">Movie Detail</string>
+    <string name="movie_list">Movie List</string>
+    <string name="movie_reviews">Movie Reviews</string>
+    <string name="person_detail">Person Detail</string>
+</resources>

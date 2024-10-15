@@ -16,6 +16,9 @@ import components.dialog.LoadingDialog
 import components.imageView.CustomImageView
 import components.top_bar.CustomTopBar
 import domain.models.BaseUIModel
+import movieskmp.composeapp.generated.resources.Res
+import movieskmp.composeapp.generated.resources.person_detail
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun PersonDetailScreen(
@@ -31,7 +34,7 @@ fun PersonDetailScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {  
         CustomTopBar(
-            title = "Person Detail"
+            title = stringResource(Res.string.person_detail),
         ) { 
             onBackClick.invoke()
         }
