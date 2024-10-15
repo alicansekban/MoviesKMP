@@ -24,10 +24,12 @@ class SearchMovieViewModel(
     fun updateUiEvents(event: SearchMovieEvents) {
         when (event) {
             is SearchMovieEvents.OnNextPage -> {
+                _uiState.value = _uiState.value.copy(isPaginating = true)
                 searchMovie(uiState.value.query, event.page)
             }
 
             SearchMovieEvents.OnSearch -> {
+                _uiState.value = _uiState.value.copy(isLoading = true)
                 searchMovie(uiState.value.query, 1)
             }
 

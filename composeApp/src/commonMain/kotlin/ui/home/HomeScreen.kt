@@ -4,17 +4,22 @@ package ui.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import components.imageView.CustomImageView
@@ -50,7 +55,16 @@ fun HomeScreen(
         when (discoverMovies) {
             BaseUIModel.Empty -> {}
             is BaseUIModel.Error -> {}
-            BaseUIModel.Loading -> {}
+            BaseUIModel.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxWidth().height(200.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        color = Color.Red
+                    )
+                }
+            }
             is BaseUIModel.Success -> {
                 val movies = (discoverMovies as BaseUIModel.Success).data
                 HomeMoviePager(
@@ -62,7 +76,16 @@ fun HomeScreen(
         when (upComingMovies) {
             BaseUIModel.Empty -> {}
             is BaseUIModel.Error -> {}
-            BaseUIModel.Loading -> {}
+            BaseUIModel.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxWidth().height(100.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        color = Color.Red
+                    )
+                }
+            }
             is BaseUIModel.Success -> {
                 val movies = (upComingMovies as BaseUIModel.Success).data
                 val widgetMovies = movies.map { it.toWidgetModel() }
@@ -79,7 +102,16 @@ fun HomeScreen(
         when (nowPlayingMovies) {
             BaseUIModel.Empty -> {}
             is BaseUIModel.Error -> {}
-            BaseUIModel.Loading -> {}
+            BaseUIModel.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxWidth().height(100.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        color = Color.Red
+                    )
+                }
+            }
             is BaseUIModel.Success -> {
                 val movies = (nowPlayingMovies as BaseUIModel.Success).data
                 val widgetMovies = movies.map { it.toWidgetModel() }
@@ -96,7 +128,16 @@ fun HomeScreen(
         when (popularMovies) {
             BaseUIModel.Empty -> {}
             is BaseUIModel.Error -> {}
-            BaseUIModel.Loading -> {}
+            BaseUIModel.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxWidth().height(100.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        color = Color.Red
+                    )
+                }
+            }
             is BaseUIModel.Success -> {
                 val movies = (popularMovies as BaseUIModel.Success).data
                 val widgetMovies = movies.map { it.toWidgetModel() }
@@ -113,7 +154,16 @@ fun HomeScreen(
         when (topRatedMovies) {
             BaseUIModel.Empty -> {}
             is BaseUIModel.Error -> {}
-            BaseUIModel.Loading -> {}
+            BaseUIModel.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxWidth().height(100.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator(
+                        color = Color.Red
+                    )
+                }
+            }
             is BaseUIModel.Success -> {
                 val movies = (topRatedMovies as BaseUIModel.Success).data
                 val widgetMovies = movies.map { it.toWidgetModel() }

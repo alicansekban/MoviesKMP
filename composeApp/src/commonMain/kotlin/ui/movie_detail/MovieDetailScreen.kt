@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import components.dialog.LoadingDialog
 import components.top_bar.CustomTopBar
 import components.widget.CustomWidget
 import components.widget.MovieWidgetComponentModel
@@ -37,6 +38,10 @@ fun MovieDetailScreen(
     val creditsState by viewModel.credits.collectAsStateWithLifecycle()
     val reviewsState by viewModel.reviews.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    if (uiState.showUi.not()) {
+        LoadingDialog()
+    }
 
     Column(
         modifier.fillMaxSize(),

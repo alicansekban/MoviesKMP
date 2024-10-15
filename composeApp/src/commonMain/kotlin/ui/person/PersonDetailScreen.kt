@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import components.dialog.LoadingDialog
 import components.imageView.CustomImageView
 import components.top_bar.CustomTopBar
 import domain.models.BaseUIModel
@@ -39,7 +40,9 @@ fun PersonDetailScreen(
             when (personState) {
                 BaseUIModel.Empty -> {}
                 is BaseUIModel.Error -> {}
-                BaseUIModel.Loading -> {}
+                BaseUIModel.Loading -> {
+                    LoadingDialog()
+                }
                 is BaseUIModel.Success -> {
                     val data = (personState as BaseUIModel.Success).data
                     CustomImageView(
