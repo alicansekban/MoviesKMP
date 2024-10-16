@@ -11,4 +11,7 @@
     <string name="movie_list">Movie List</string>
     <string name="movie_reviews">Movie Reviews</string>
     <string name="person_detail">Person Detail</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="favorites">Favorites</string>
 </resources>

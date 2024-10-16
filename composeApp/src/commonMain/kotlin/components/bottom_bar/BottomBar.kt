@@ -6,9 +6,9 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -17,6 +17,9 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
@@ -27,6 +30,11 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import movieskmp.composeapp.generated.resources.Res
+import movieskmp.composeapp.generated.resources.favorites
+import movieskmp.composeapp.generated.resources.home
+import movieskmp.composeapp.generated.resources.search
+import org.jetbrains.compose.resources.stringResource
 import utils.FavoritesHost
 import utils.HomeHost
 import utils.SearchHost
@@ -41,21 +49,28 @@ fun BottomBar(
     val currentDestination = navBackStackEntry?.destination
     val items = listOf(
         BottomBarRoute(
-            name = "Home",
+            name = stringResource(Res.string.home),
             route = HomeHost,
-            icon = Icons.Filled.Home
+            unSelectedIcon = Icons.Outlined.Home,
+            selectedIcon = Icons.Filled.Home
         ),
         BottomBarRoute(
-            name = "Search",
+            name = stringResource(Res.string.search),
             route = SearchHost,
-            icon = Icons.Filled.Search
+            unSelectedIcon = Icons.Outlined.Search,
+            selectedIcon = Icons.Filled.Search
         ),
         BottomBarRoute(
-            name = "Saved",
+            name = stringResource(Res.string.favorites),
             route = FavoritesHost,
-            icon = Icons.Filled.Call
+            unSelectedIcon = Icons.Filled.FavoriteBorder,
+            selectedIcon = Icons.Filled.Favorite
+
         )
     )
+    var selectedIndex by rememberSaveable {
+        mutableStateOf(0)
+    }
 
     Column(modifier = Modifier.fillMaxWidth()) {
         AnimatedVisibility(visible = isBottomBarVisible) {
@@ -63,10 +78,11 @@ fun BottomBar(
                 containerColor = Color.White,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                items.forEach { item ->
+                items.forEachIndexed { index,item ->
                     NavigationBarItem(
                         selected = currentDestination?.hierarchy?.any { it.hasRoute(item.route::class) } == true,
                         onClick = {
+                            selectedIndex = index
                             navController.navigate(item.route) {
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
@@ -82,7 +98,8 @@ fun BottomBar(
                             )
                         },
                         icon = {
-                            Icon(item.icon, contentDescription = item.name)
+                            val icon = if (index == selectedIndex) item.selectedIcon else item.unSelectedIcon
+                            Icon(icon, contentDescription = item.name)
                         },
                         interactionSource = NoRippleInteractionSource,
                         colors = NavigationBarItemDefaults.colors(
@@ -90,7 +107,7 @@ fun BottomBar(
                             selectedTextColor = Color.Red,
                             unselectedIconColor = MaterialTheme.colorScheme.onBackground,
                             unselectedTextColor = MaterialTheme.colorScheme.onBackground,
-                            indicatorColor = MaterialTheme.colorScheme.background
+                            indicatorColor = Color.Transparent
                         )
                     )
                 }
