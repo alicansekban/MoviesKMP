@@ -1,5 +1,6 @@
 [versions]
 agp = "8.7.1"
+agpFleet = "8.7.0-alpha07"
 android-compileSdk = "35"
 android-minSdk = "27"
 android-targetSdk = "35"
@@ -73,8 +74,8 @@ androidx-material3-android = { group = "androidx.compose.material3", name = "mat
 
 
 [plugins]
-androidApplication = { id = "com.android.application", version.ref = "agp" }
-androidLibrary = { id = "com.android.library", version.ref = "agp" }
+androidApplication = { id = "com.android.application", version.ref = "agpFleet" }
+androidLibrary = { id = "com.android.library", version.ref = "agpFleet" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
