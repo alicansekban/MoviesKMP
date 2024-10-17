@@ -54,9 +54,7 @@ fun MovieDetailScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        Text(text = "open_vidoes", modifier = Modifier.clickable {
-            openVideosScreen.invoke()
-        })
+
         CustomTopBar(
             title = stringResource(Res.string.movie_detail_title),
             onBackClick = onBackClick
@@ -91,7 +89,7 @@ fun MovieDetailScreen(
                     BaseUIModel.Loading -> {}
                     is BaseUIModel.Success -> {
                         val movieDetail = (movieDetailState as BaseUIModel.Success).data
-                        MovieDetails(movieDetail = movieDetail)
+                        MovieDetails(movieDetail = movieDetail, openVideosScreen = openVideosScreen)
                         if (uiState.movieDetail.id == 0) {
                             viewModel.updateMovieDetail(movieDetail)
                         }

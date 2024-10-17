@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import chaintech.videoplayer.model.PlayerConfig
 import components.dialog.LoadingDialog
 import components.top_bar.CustomTopBar
 import components.video_player.VideoPlayer
@@ -25,7 +26,7 @@ fun VideoScreen(
     onBackClick: () -> Unit
 ) {
 
-    val state by viewModel.videos.collectAsStateWithLifecycle()
+    val state by viewModel.video.collectAsStateWithLifecycle()
 
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
@@ -33,7 +34,7 @@ fun VideoScreen(
     ) {
 
         CustomTopBar(
-            title = "Trailers"
+            title = "Trailer"
         ) {
             onBackClick.invoke()
         }
@@ -46,24 +47,26 @@ fun VideoScreen(
             }
 
             is BaseUIModel.Success -> {
-                val videos = (state as BaseUIModel.Success<List<MovieVideoUIModel>>).data
-                videos.forEach { video ->
-                    if (video.videoType == MovieVideoType.YOUTUBE) {
+                val video = (state as BaseUIModel.Success<MovieVideoUIModel?>).data
+                video?.let {v ->
+                    if (v.videoType == MovieVideoType.YOUTUBE) {
                         YoutubePlayer(
-                            modifier = Modifier.fillMaxWidth().height(300.dp),
-                            youtubeVideoId = video.videoUrl ?: ""
+                            modifier = Modifier.fillMaxWidth().height(500.dp),
+                            youtubeVideoId = v.videoUrl ?: "",
+                            playerConfig = PlayerConfig(
+                                isSpeedControlEnabled = false,
+                            )
+
                         )
                     } else {
                         VideoPlayer(
-                            modifier = Modifier.fillMaxWidth().height(300.dp),
-                            videoUrl = video.videoUrl ?: ""
+                            modifier = Modifier.fillMaxWidth().height(500.dp),
+                            videoUrl = v.videoUrl ?: ""
                         )
                     }
                 }
             }
         }
-
-
     }
 
 }

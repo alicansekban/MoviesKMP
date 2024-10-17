@@ -14,16 +14,15 @@ class VideoScreenViewModel(
     private val interactor: MovieDetailInteractor
 ): ViewModel() {
 
-    private val _videos = MutableStateFlow<BaseUIModel<List<MovieVideoUIModel>>>(BaseUIModel.Empty)
-    val videos = _videos.stateIn(viewModelScope, SharingStarted.Eagerly,BaseUIModel.Empty)
+    private val _video = MutableStateFlow<BaseUIModel<MovieVideoUIModel?>>(BaseUIModel.Empty)
+    val video = _video.stateIn(viewModelScope, SharingStarted.Eagerly,BaseUIModel.Empty)
 
     fun getVideos(movieId : Int) {
         viewModelScope.launch {
             interactor.getMovieVideos(movieId).collect{state ->
-                _videos.emit(state)
+                _video.emit(state)
             }
         }
     }
-
 
 }
