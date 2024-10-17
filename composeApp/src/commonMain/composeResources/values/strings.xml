@@ -14,4 +14,5 @@
     <string name="home">Home</string>
     <string name="search">Search</string>
     <string name="favorites">Favorites</string>
+    <string name="search_title">Search Movies</string>
 </resources>
