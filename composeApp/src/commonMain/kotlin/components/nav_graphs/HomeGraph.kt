@@ -18,12 +18,9 @@ import ui.movie_reviews.MovieReviewsScreen
 import ui.movie_reviews.MovieReviewsViewModel
 import ui.person.PersonDetailScreen
 import ui.person.PersonDetailViewModel
-import utils.HomeHost
-import utils.HomeRoute
-import utils.MovieDetailRoute
-import utils.MovieListRoute
-import utils.MovieReviewsRoute
-import utils.PersonDetailRoute
+import ui.video.VideoScreen
+import ui.video.VideoScreenViewModel
+import utils.*
 
 fun NavGraphBuilder.homeGraph(navController: NavController) {
 
@@ -90,6 +87,10 @@ fun NavGraphBuilder.homeGraph(navController: NavController) {
                 openPersonDetailScreen = {personId ->
                     val route = PersonDetailRoute(personId)
                     navController.navigate(route)
+                },
+                openVideosScreen = {
+                    val route = VideoScreenRoute(movieId = args.movieId)
+                    navController.navigate(route)
                 }
             )
 
@@ -119,6 +120,19 @@ fun NavGraphBuilder.homeGraph(navController: NavController) {
                 viewModel = viewModel,
             )
         }
+
+        composable<VideoScreenRoute> {
+            val args = it.toRoute<VideoScreenRoute>()
+            val viewModel = koinViewModel<VideoScreenViewModel>()
+            viewModel.getVideos(args.movieId)
+            VideoScreen(
+                viewModel = viewModel,
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
 
 
     }

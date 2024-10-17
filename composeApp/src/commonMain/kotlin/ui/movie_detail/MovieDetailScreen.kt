@@ -1,11 +1,13 @@
 package ui.movie_detail
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -33,7 +35,8 @@ fun MovieDetailScreen(
     openMovieDetailScreen: (id: Int) -> Unit,
     movieId: Int,
     openReviewScreen: (id: Int) -> Unit,
-    openPersonDetailScreen: (id: Int) -> Unit
+    openPersonDetailScreen: (id: Int) -> Unit,
+    openVideosScreen : () -> Unit
 ) {
 
     val movieDetailState by viewModel.movieDetail.collectAsStateWithLifecycle()
@@ -51,6 +54,9 @@ fun MovieDetailScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
+        Text(text = "open_vidoes", modifier = Modifier.clickable {
+            openVideosScreen.invoke()
+        })
         CustomTopBar(
             title = stringResource(Res.string.movie_detail_title),
             onBackClick = onBackClick

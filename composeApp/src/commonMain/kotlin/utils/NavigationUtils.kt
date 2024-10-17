@@ -1,5 +1,6 @@
 package utils
 
+import domain.models.movie.MovieVideoType
 import kotlinx.serialization.Serializable
 
 
@@ -32,3 +33,6 @@ data class MovieReviewsRoute(val movieId: Int)
 
 @Serializable
 data class PersonDetailRoute(val personId: Int)
+
+@Serializable
+data class VideoScreenRoute(val movieId : Int)

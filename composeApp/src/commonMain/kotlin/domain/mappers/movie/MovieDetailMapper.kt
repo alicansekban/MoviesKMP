@@ -68,7 +68,6 @@ fun MovieVideoItem.toUIModel(): MovieVideoUIModel {
         if (this.site.equals("YouTube", true)) MovieVideoType.YOUTUBE else MovieVideoType.OTHER
     return MovieVideoUIModel(
         videoUrl = this.key,
-        videoId = this.id,
         videoType = videoType
     )
 }

@@ -167,7 +167,7 @@ class MovieDetailInteractor(
 
     fun getMovieVideos(
         id: Int,
-    ): Flow<BaseUIModel<List<MovieVideoUIModel>>> {
+    ): Flow<BaseUIModel<MovieVideoUIModel?>> {
         return flow {
             emit(BaseUIModel.Loading)
             repository.getMovieVideos(id = id).collect { state ->
@@ -178,7 +178,7 @@ class MovieDetailInteractor(
                     is ResultWrapper.Success -> {
                         val uiModel = state.value.results?.filter { item ->
                             item.type == "Trailer" && (item.size ?: 0) >= 1080
-                        }?.map { it.toUIModel() } ?: emptyList()
+                        }?.map { it.toUIModel() }?.firstOrNull()
                         emit(BaseUIModel.Success(uiModel))
                     }
                 }
