@@ -5,10 +5,13 @@ import data.response.movie.CastItem
 import data.response.movie.MovieDetailResponse
 import data.response.movie.MovieReviewResponse
 import data.response.movie.MovieReviewResponseItem
+import data.response.movie.MovieVideoItem
 import domain.models.movie.MovieCreditsUIModel
 import domain.models.movie.MovieDetailUIModel
 import domain.models.movie.MovieReviewsItemUIModel
 import domain.models.movie.MovieReviewsUIModel
+import domain.models.movie.MovieVideoType
+import domain.models.movie.MovieVideoUIModel
 import utils.Constants
 
 fun MovieDetailResponse.toUIModel(): MovieDetailUIModel {
@@ -57,5 +60,15 @@ fun MovieDetailUIModel.toEntity(): MovieEntity {
         movieTitle = title.orEmpty(),
         movieOverview = overview.orEmpty(),
         moviePoster = imageUrl.orEmpty()
+    )
+}
+
+fun MovieVideoItem.toUIModel(): MovieVideoUIModel {
+    val videoType =
+        if (this.site.equals("YouTube", true)) MovieVideoType.YOUTUBE else MovieVideoType.OTHER
+    return MovieVideoUIModel(
+        videoUrl = this.key,
+        videoId = this.id,
+        videoType = videoType
     )
 }

@@ -9,6 +9,7 @@ import domain.models.movie.MovieDetailUIModel
 import domain.models.movie.MovieListUIModel
 import domain.models.movie.MovieReviewsUIModel
 import domain.models.movie.MovieType
+import domain.models.movie.MovieVideoUIModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import utils.Constants
@@ -162,5 +163,26 @@ class MovieDetailInteractor(
     private suspend fun removeMovieFavorite(movieId: Int): MovieDetailUIModel {
         repository.removeMovieFromFavorite(movieId)
         return MovieDetailUIModel(isFavorite = false)
+    }
+
+    fun getMovieVideos(
+        id: Int,
+    ): Flow<BaseUIModel<List<MovieVideoUIModel>>> {
+        return flow {
+            emit(BaseUIModel.Loading)
+            repository.getMovieVideos(id = id).collect { state ->
+                when (state) {
+                    is ResultWrapper.GenericError -> emit(BaseUIModel.Error(state.error ?: "Error"))
+                    ResultWrapper.Loading -> emit(BaseUIModel.Loading)
+                    ResultWrapper.NetworkError -> emit(BaseUIModel.Error("Network Error"))
+                    is ResultWrapper.Success -> {
+                        val uiModel = state.value.results?.filter { item ->
+                            item.type == "Trailer" && (item.size ?: 0) >= 1080
+                        }?.map { it.toUIModel() } ?: emptyList()
+                        emit(BaseUIModel.Success(uiModel))
+                    }
+                }
+            }
+        }
     }
 }

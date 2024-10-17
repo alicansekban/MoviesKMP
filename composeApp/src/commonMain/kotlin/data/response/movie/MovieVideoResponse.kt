@@ -21,5 +21,7 @@ data class MovieVideoItem(
     @SerialName("official")
     val official : String? = null,
     @SerialName("key")
-    val key : String? = null
+    val key: String? = null,
+    @SerialName("site")
+    val site: String? = null
 )
