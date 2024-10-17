@@ -1,10 +1,6 @@
 package data.remote
 
-import data.response.movie.BaseMoviesResponse
-import data.response.movie.MovieCreditResponse
-import data.response.movie.MovieDetailResponse
-import data.response.movie.MovieImagesResponse
-import data.response.movie.MovieReviewResponse
+import data.response.movie.*
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -135,6 +131,16 @@ class MoviesApiService(
                 url {
                     appendPathSegments("movie", id.toString(), "similar")
                     parameters.append("page", page.toString())
+                }
+            }.body()
+        }
+
+    suspend fun getMovieVideos(id : Int) : ResultWrapper<MovieVideoResponse> =
+        safeApiCall(Dispatchers.IO) {
+            client.get(urlString = Constants.BASE_URL) {
+                url {
+                    appendPathSegments("movie", id.toString(), "videos")
+
                 }
             }.body()
         }

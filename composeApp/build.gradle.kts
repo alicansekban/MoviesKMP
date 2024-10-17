@@ -86,6 +86,10 @@ kotlin {
 
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
+
+            // video player
+            implementation(libs.chaintech.compose.multiplatform.media.player)
+
         }
         iosMain.dependencies {
             // ktor ios

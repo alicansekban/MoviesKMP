@@ -3,11 +3,7 @@ package data.repository
 import data.local.AppDatabase
 import data.local.entity.MovieEntity
 import data.remote.MoviesApiService
-import data.response.movie.BaseMoviesResponse
-import data.response.movie.MovieCreditResponse
-import data.response.movie.MovieDetailResponse
-import data.response.movie.MovieImagesResponse
-import data.response.movie.MovieReviewResponse
+import data.response.movie.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
@@ -80,5 +76,11 @@ class MoviesRepository(
             )
         }.flowOn(Dispatchers.IO)
 
+    fun getMovieVideos(id: Int) : Flow<ResultWrapper<MovieVideoResponse>> =
+        flow {
+            emit(
+                moviesApiService.getMovieVideos(id = id)
+            )
+        }.flowOn(Dispatchers.IO)
 
 }
