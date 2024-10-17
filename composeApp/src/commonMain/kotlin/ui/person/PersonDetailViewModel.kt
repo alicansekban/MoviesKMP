@@ -2,7 +2,7 @@ package ui.person
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import domain.interactors.person.PersonIndicator
+import domain.interactors.person.PersonInteractor
 import domain.models.BaseUIModel
 import domain.models.movie.MovieListUIModel
 import domain.models.person.PersonDetailUIModel
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class PersonDetailViewModel(
-    private val interactor: PersonIndicator
+    private val interactor: PersonInteractor
 ) : ViewModel() {
 
     private val _personDetail = MutableStateFlow<BaseUIModel<PersonDetailUIModel>>(BaseUIModel.Empty)

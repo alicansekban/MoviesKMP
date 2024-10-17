@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import utils.Constants
 import utils.ResultWrapper
 
-class PersonIndicator(
+class PersonInteractor(
     private val repository: PersonRepository
 ) {
 
