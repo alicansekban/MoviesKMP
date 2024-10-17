@@ -6,9 +6,10 @@ import domain.interactors.movie.SearchMovieInteractor
 import domain.models.BaseUIModel
 import domain.models.movie.MovieListUIModel
 import domain.models.movie.MovieUIModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class SearchMovieViewModel(
@@ -21,27 +22,44 @@ class SearchMovieViewModel(
         SearchMovieUIStateModel()
     )
 
+    private val _queryFlow = MutableStateFlow("")
+    val queryFlow = _queryFlow.stateIn(
+        viewModelScope,
+        SharingStarted.Eagerly,
+        ""
+    )
+
+    init {
+        startSearchFlow()
+    }
+
+    @OptIn(FlowPreview::class)
+    private fun startSearchFlow() {
+        viewModelScope.launch(Dispatchers.IO) {
+            queryFlow
+                .debounce(1000L) // 1 saniye bekle
+                .filter { it.length > 3 } // 3 karakterden uzun sorguları işle
+                .distinctUntilChanged() // Aynı sorguyu tekrar tetikleme
+                .collectLatest { query ->
+                    // Arama işlemi
+                    searchMovie(query, 1)
+                }
+        }
+    }
+
     fun updateUiEvents(event: SearchMovieEvents) {
         when (event) {
             is SearchMovieEvents.OnNextPage -> {
-                _uiState.value = _uiState.value.copy(isPaginating = true)
-                searchMovie(uiState.value.query, event.page)
+                searchMovie(query = _queryFlow.value, event.page)
             }
 
             SearchMovieEvents.OnSearch -> {
-                _uiState.value = _uiState.value.copy(isLoading = true)
-                searchMovie(uiState.value.query, 1)
+                searchMovie(_queryFlow.value, 1)
             }
 
             is SearchMovieEvents.OnSearchQueryChange -> {
-                _uiState.value = uiState.value.copy(
-                    query = event.query
-                )
-                if (_uiState.value.query.length > 3 && _uiState.value.isLoading.not() && _uiState.value.isPaginating.not()) {
-                    searchMovie(uiState.value.query, 1)
-                    return
-                }
-                if (_uiState.value.query.isEmpty()) {
+                _queryFlow.value = event.query
+                if (event.query.isEmpty()) {
                     _uiState.value = _uiState.value.copy(
                         uiModel = MovieListUIModel()
                     )
@@ -57,15 +75,17 @@ class SearchMovieViewModel(
                     BaseUIModel.Empty -> {}
                     is BaseUIModel.Error -> {
                         _uiState.value = uiState.value.copy(
-                            isLoading = false,
                             isPaginating = false
                         )
                     }
 
-                    BaseUIModel.Loading -> {}
+                    BaseUIModel.Loading -> {
+                        _uiState.value = uiState.value.copy(
+                            isPaginating = page != 1
+                        )
+                    }
                     is BaseUIModel.Success -> {
                         _uiState.value = uiState.value.copy(
-                            isLoading = false,
                             isPaginating = false,
                             uiModel = state.data
 

@@ -10,8 +10,6 @@ sealed interface SearchMovieEvents {
 }
 
 data class SearchMovieUIStateModel(
-    val query: String = "",
     val uiModel: MovieListUIModel = MovieListUIModel(),
-    val isLoading: Boolean = false,
     val isPaginating: Boolean = false,
 )

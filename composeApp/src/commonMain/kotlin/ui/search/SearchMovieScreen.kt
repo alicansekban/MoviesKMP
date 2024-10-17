@@ -49,6 +49,7 @@ fun SearchMovieScreen(
 
     val scope = rememberCoroutineScope()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val queryFlow by viewModel.queryFlow.collectAsStateWithLifecycle()
     val gridState = rememberLazyGridState()
     val shouldFetchNextPage by remember {
         derivedStateOf {
@@ -72,9 +73,6 @@ fun SearchMovieScreen(
             )
         }
     }
-    if (uiState.isLoading) {
-        LoadingDialog()
-    }
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -89,7 +87,7 @@ fun SearchMovieScreen(
 
             )
             OutlinedTextField(
-                value = uiState.query,
+                value = queryFlow,
                 onValueChange = {
                     viewModel.updateUiEvents(SearchMovieEvents.OnSearchQueryChange(it))
                                 },
